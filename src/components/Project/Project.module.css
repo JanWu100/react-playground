@@ -1,0 +1,75 @@
+
+.description {
+  font-size: 1.5rem;
+  font-weight: 400;
+  padding-inline: 2rem;
+  padding-bottom: 1.8rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 30px;
+  margin-inline: auto;
+  max-width: 90%;
+}
+.picture {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1;
+  cursor: pointer;
+  object-fit: cover;
+}
+.picture:hover {
+  opacity: 0.7;
+}
+
+.picturesGrid {
+  display: grid;
+  width: 100%;
+  padding: 0 6px;
+  gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+@media (min-width: 580px) {
+  .picturesGrid {
+    padding: 0 2rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .description {
+    padding-inline: 5.6rem;
+    max-width: 70%;
+  }
+  .picturesGrid {
+    padding: 0 5.6rem;
+  }
+  .title {
+    padding: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .projectContainer {
+    margin-top: calc(1.3rem + 30px);
+  }
+  .picturesGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+  .lead {
+    max-width: unset;
+  }
+  .description {
+    max-width: 50%;
+  }
+
+  .title {
+    position: absolute;
+    top: 2.4rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 1.8rem;
+  }
+}

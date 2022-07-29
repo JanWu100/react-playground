@@ -1,0 +1,27 @@
+.main {
+    padding: 65px 2rem 35px;
+}
+
+.lead {
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding-bottom: 1.8rem;
+    max-width: 75%;
+}
+
+.button {
+    background: none;
+    color: #000;
+    border: 1px solid #000000;
+    font-size: 1.7rem;
+    padding: 1rem 2.5rem;
+}
+
+
+@media (min-width: 768px) {
+    .main {
+      padding: 65px 5.6rem 0;
+    }
+ 
+  }
+  

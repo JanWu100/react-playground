@@ -1,0 +1,45 @@
+.homeContainer {
+    margin-top: 50px;
+}
+
+.lead {
+    font-size: 1.8rem;
+    font-weight: 400;
+    padding-inline: 2rem;
+    padding-bottom: 1.8rem;
+}
+
+.projects {
+    display: grid;
+    width: 100%;
+    padding: 0 6px;
+    gap: 6px;
+    grid-template-columns: repeat(2, 1fr);
+}
+
+@media (min-width: 580px) {
+    .projects {
+        grid-template-columns: repeat(3, 1fr);
+        padding: 0 2rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .lead {
+        padding-inline: 5.6rem;
+        max-width: 70%;
+    }
+    .projects {
+        padding: 0 5.6rem;
+    }
+    
+}
+
+@media (min-width: 1024px) {
+    .projects {
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .lead {
+        max-width: unset;
+    }
+}

@@ -1,0 +1,19 @@
+
+.bottomBar {
+    display: flex;
+    justify-content: flex-end;
+    padding: 2rem 2rem;
+  }
+  
+  .link {
+    font-size: 1.2rem;
+    color: #000;
+    margin-left: 2rem;
+  }
+  
+  @media (min-width: 768px) {
+    .bottomBar {
+      padding: 2rem 5.6rem 3rem;
+    }
+  }
+  

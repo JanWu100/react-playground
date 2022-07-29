@@ -1,0 +1,22 @@
+{
+    "projects": [
+    {
+    "id": 1,
+      "type": "Project",
+      "title": "House, Somewhere - 2020",
+      "description": "Sed senectus quam tempor pharetra tincidunt. Urna, venenatis netus lacus, odio. Turpis lorem quis ut in. Tincidunt aliquam vitae, fermentum quis nibh dignissim. Commodo amet phasellus urna cursus fermentum. Id purus quam viverra tempus nec bibendum amet. Natoque neque eget platea in tempus. Nunc rhoncus aliquet pellentesque quis vitae ornare justo hac. Gravida integer eget purus risus eget. Quisque pellentesque proin vestibulum commodo.",
+      "thumbnail": "./images/thumbnails/1.jpg",
+      "big": [
+        "../images/project1/proj1_1.jpg",
+        "../images/project1/proj1_2.jpg",
+        "../images/project1/proj1_3.jpg",
+        "../images/project1/proj1_4.jpg",
+        "../images/project1/proj1_5.jpg",
+        "../images/project1/proj1_6.jpg",
+        "../images/project1/proj1_7.jpg",
+        "../images/project1/proj1_8.jpg"
+    ]
+    }
+    ]
+  }
+  

@@ -1,0 +1,39 @@
+.photos {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .photo {
+    width: fit-content;
+    margin-inline: auto;
+    max-width: 100%;
+  }
+  
+  .navbar {
+    position: absolute;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2rem;
+  }
+  
+  .arrow {
+    height: 1.4rem;
+    width: 100%;
+    cursor: pointer;
+  }
+  .arrowLink {
+    background: #d9d7cf85;
+    padding: 2rem 2rem 2rem 2rem;
+    transform: translateX(-2rem);
+  }
+  
+  @media (min-width: 768px) {
+    .navbar {
+      padding: 0 5.6rem;
+      margin: 0 auto;
+    }
+  }
+  

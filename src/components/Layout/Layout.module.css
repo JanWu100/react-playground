@@ -1,0 +1,14 @@
+.layout {
+    min-height: 98vh;
+    margin-bottom: -50px;
+    margin-inline: auto;
+  max-width: 1270px;
+  }
+  .footer,
+  .push {
+    margin-inline: auto;
+    height: 50px;
+    max-width: 1270px;
+  }
+  
+  
