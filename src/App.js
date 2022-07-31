@@ -10,6 +10,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Photos from "./components/Photos/Photos";
 import About from "./components/pages/About";
 import Contact from "./components/Contact/Contact"
+import Login from "./components/pages/Login";
 
 function App() {
   const projects = DUMMY_DATA.projects;
@@ -32,21 +33,29 @@ function App() {
                   </>
       )} />
 
-      <Route path="/:type/:id/photos" element={
+      <Route path=":type/:id/photos" element={
                   <Photos projects={projects}/>
       } />
 
-      <Route path="/:type/:id" element={(<>
+      <Route path=":type/:id" element={(<>
                   {navbar}
                   <Project projects={projects} />
                   </>
       )} />
 
-      <Route path="/:type" element={(<>
+        <Route path="about" element={(<>
                   {navbar}
                   <About />
                   </>
       )} />
+
+      <Route path="login" element={(<>
+                  {navbar}
+                  <Login />
+                  </>
+      )} />
+
+
     </Routes>
   );
   const contact = <Contact onHideContact={hideContact} />

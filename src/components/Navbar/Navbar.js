@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import classes from "./Navbar.module.css";
 import { useParams } from "react-router-dom";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
+import { useEffect } from "react";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
@@ -12,7 +13,7 @@ const Navbar = (props) => {
 
   return (
     <nav className={classes.navbar}>
-      {params.type !== undefined ? (
+      {window.location.pathname !== "/" ? (
           <Link to="/" state={{ from: "navbar" }}>
           <img
             className={classes.arrow}
@@ -25,12 +26,10 @@ const Navbar = (props) => {
 
       <ul className={classes.list}>
         <li className={classes.listItem}>
-          <a href="#" className={classes.link}>
-            Login
-          </a>
+          <Link to="/login" className={classes.link}>Login</Link>
         </li>
         <li className={classes.listItem}>
-        {params.type === "About" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/About" className={classes.link}>About</Link>}
+        {window.location.pathname === "/about" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/about" className={classes.link}>About</Link>}
           
           
         </li>
