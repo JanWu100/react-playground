@@ -1,12 +1,12 @@
 import logo from "../../assets/SIMPLE_LOGO.svg";
 import arrow from "../../assets/arrow.svg";
-import { Link } from "react-router-dom";
+import { Link, useParams} from "react-router-dom";
 import classes from "./Navbar.module.css";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
-
+  const params = useParams()
 
   return (
     <nav className={classes.navbar}>
