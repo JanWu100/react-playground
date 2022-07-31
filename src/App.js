@@ -11,6 +11,7 @@ import Photos from "./components/Photos/Photos";
 import About from "./components/pages/About";
 import Contact from "./components/Contact/Contact"
 import Login from "./components/pages/Login";
+import AuthContext from "./components/context/authContext";
 
 function App() {
   const projects = DUMMY_DATA.projects;
@@ -63,10 +64,17 @@ function App() {
 
   return (
     <BrowserRouter>
-      <Layout 
-      content={content} 
-      contact={showContact !== null ? contact : null}
-      footer={footer} />
+      <AuthContext.Provider
+        value={{
+          isAuthenticated: false,
+          login: ()=>{},
+          logout: ()=>{}
+        }}>
+        <Layout 
+        content={content} 
+        contact={showContact !== null ? contact : null}
+        footer={footer} />
+      </AuthContext.Provider>
     </BrowserRouter>
   );
 }

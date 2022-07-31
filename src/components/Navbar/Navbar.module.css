@@ -43,6 +43,17 @@
   .link {
     color: #000000;
     text-decoration: none;
+   
+  }
+  .contactButton {
+    background: none;
+    border: none;
+    outline: none;
+    color: #000000;
+    text-decoration: none;
+    font-size: 1.8rem;
+    padding: 0;
+    cursor: pointer;
   }
   
   

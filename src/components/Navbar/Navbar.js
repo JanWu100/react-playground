@@ -2,13 +2,10 @@ import logo from "../../assets/SIMPLE_LOGO.svg";
 import arrow from "../../assets/arrow.svg";
 import { Link } from "react-router-dom";
 import classes from "./Navbar.module.css";
-import { useParams } from "react-router-dom";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
-import { useEffect } from "react";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
-  const params = useParams()
 
 
   return (
@@ -20,7 +17,7 @@ const Navbar = (props) => {
             src={arrow}
             alt=""
           ></img></Link>
-      ) :  <Link to="/"><img className={classes.logo} src={logo}></img></Link>}
+      ) :  <Link to="/"><img className={classes.logo} src={logo} alt=""></img></Link>}
      
     
 
@@ -35,14 +32,14 @@ const Navbar = (props) => {
         </li>
         <li className={classes.listItem}>
           {width >= 768 ?  
-          ( <a href="#" onMouseEnter={props.onContact} className={classes.link}>
+          ( <button onMouseEnter={props.onContact} className={classes.contactButton}>
           Contact
-        </a>)
+        </button>)
           :
-          (<a href="#" onClick={(e)=>{e.preventDefault()
-          props.onContact()}} className={classes.link}>
+          (<button onClick={(e)=>{e.preventDefault()
+          props.onContact()}} className={classes.contactButton}>
           Contact
-        </a>)
+        </button>)
           }
          
         </li>
