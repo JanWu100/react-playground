@@ -1,17 +1,21 @@
 import classes from "./Login.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
-import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useContext} from "react";
+import AuthContext from "../context/authContext";
 
 const Login = () => {
-    const [email, setEmail] = useState("")
+    const [email, setEmail] = useState("dsa@sda")
     const [password, setPassword] = useState("")
-
-
+    const navigate = useNavigate()
+    const auth = useContext(AuthContext)
 
     const submitHandler = (e) => {
         e.preventDefault()
         console.log("email = " + email + " password = " + password)
+        auth.login()
+        navigate("/")
+
     }
   return (
     <AnimatePresence>

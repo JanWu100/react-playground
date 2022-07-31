@@ -1,12 +1,22 @@
 import logo from "../../assets/SIMPLE_LOGO.svg";
 import arrow from "../../assets/arrow.svg";
-import { Link, useParams} from "react-router-dom";
+import { Link, useParams, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
+import { useContext} from "react";
+import AuthContext from "../context/authContext";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
   const params = useParams()
+  const auth = useContext(AuthContext)
+  const navigate = useNavigate()
+
+  const logoutHandler = () => {
+    auth.logout()
+    navigate("/")
+  }
+
 
   return (
     <nav className={classes.navbar}>
@@ -23,7 +33,10 @@ const Navbar = (props) => {
 
       <ul className={classes.list}>
         <li className={classes.listItem}>
-          <Link to="/login" className={classes.link}>Login</Link>
+          {auth.isAuthenticated === false ? 
+            <Link to="/login" className={classes.link}>Login</Link> 
+            : 
+            <button className={classes.contactButton} onClick={logoutHandler}>Logout</button>}
         </li>
         <li className={classes.listItem}>
         {window.location.pathname === "/about" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/about" className={classes.link}>About</Link>}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 import Navbar from "./components/Navbar/Navbar";
@@ -15,6 +15,8 @@ import AuthContext from "./components/context/authContext";
 
 function App() {
   const projects = DUMMY_DATA.projects;
+
+  const [userLogged, setUserLogged ] = useState(false)
 
   const [showContact, setShowContact] = useState(null)
   const onContactHandler =()=> {
@@ -66,9 +68,9 @@ function App() {
     <BrowserRouter>
       <AuthContext.Provider
         value={{
-          isAuthenticated: false,
-          login: ()=>{},
-          logout: ()=>{}
+          isAuthenticated: userLogged,
+          login: ()=>{setUserLogged(true)},
+          logout: ()=>{setUserLogged(false)}
         }}>
         <Layout 
         content={content} 
