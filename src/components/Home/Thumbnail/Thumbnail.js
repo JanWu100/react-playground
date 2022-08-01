@@ -17,7 +17,7 @@ const Thumbnail = ({ type, id, thumbnail, title }) => {
     );
   } else {
     return (
-      <Link to={"/login"} className={classes.link}>
+      <Link to={"addproject"} className={classes.link}>
         <div className={classes.card}>
           <div className={classes.addProject}>
           <h2 className={classes.addProjectText}>Add Project</h2>

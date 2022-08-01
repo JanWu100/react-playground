@@ -2,7 +2,7 @@ import classes from "./Login.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext} from "react";
-import AuthContext from "../context/authContext";
+import AuthContext from "../../context/authContext";
 
 const Login = () => {
     const [email, setEmail] = useState("dsa@sda")

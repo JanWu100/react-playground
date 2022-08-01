@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, {useState } from "react";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 import Navbar from "./components/Navbar/Navbar";
@@ -8,10 +8,11 @@ import Project from "./components/Project/Project";
 import DUMMY_DATA from "./assets/data.json";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Photos from "./components/Photos/Photos";
-import About from "./components/pages/About";
+import About from "./components/pages/About/About";
 import Contact from "./components/Contact/Contact"
-import Login from "./components/pages/Login";
+import Login from "./components/pages/Login/Login";
 import AuthContext from "./components/context/authContext";
+import AddProject from "./components/pages/AddProject/AddProject";
 
 function App() {
   const projects = DUMMY_DATA.projects;
@@ -58,6 +59,11 @@ function App() {
                   </>
       )} />
 
+      <Route path="addproject" element={(<>
+                  {navbar}
+                  <AddProject />
+                  </>
+      )} />
 
     </Routes>
   );
