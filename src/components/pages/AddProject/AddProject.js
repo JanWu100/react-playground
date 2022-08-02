@@ -1,66 +1,64 @@
-import React, {useCallback} from 'react'
-import {useDropzone} from 'react-dropzone'
+import React from 'react'
 import classes from "./AddProject.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/authContext";
 import { storage } from '../../../firebase';
-import { ref, uploadBytes, listAll, getDownloadURL} from "firebase/storage"
+import { ref, uploadBytes, getDownloadURL} from "firebase/storage"
 import { v4 } from "uuid"
+import axios from 'axios';
 
 
 const AddProject = () => {
-  // const [type, setType] = useState("")
-  // const [password, setPassword] = useState("")
+
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
 
   const [project, setProject] = useState({
-    id: `${v4()}`,
-    type: 1,
-    name: "",
-    description: "",
-    pictures: [],
+    type: "Project",
+    title: "",
+    description: "Sed senectus quam tempor pharetra tincidunt. Urna, venenatis netus lacus, odio. Turpis lorem quis ut in. Tincidunt aliquam vitae, fermentum quis nibh dignissim. Commodo amet phasellus urna cursus fermentum. Id purus quam viverra tempus nec bibendum amet. Natoque neque eget platea in tempus. Nunc rhoncus aliquet pellentesque quis vitae ornare justo hac. Gravida integer eget purus risus eget. Quisque pellentesque proin vestibulum commodo.",
+    big: [],
+    thumbnail: null
   });
 
   const options = [
-    { value: 1, label: "Project" },
-    { value: 2, label: "Award" },
-    { value: 3, label: "Article" },
+    { value: "Project", label: "Project" },
+    { value: "Award", label: "Award" },
+    { value: "Article", label: "Article" },
   ];
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
-    
-        console.log(project)
-        console.log(acceptedFiles)
+    if(project.title.length === 0) {
+        console.log("Project needs a title")
+    } else if (project.description.length === 0) {
+        console.log("Project needs a description")
+    } else if (project.big.length === 0) {
+        console.log("Project needs some pictures")
+    } else {
+        // console.log(project)
+        const DB_PATH = process.env.REACT_APP_DB_PATH
+        await axios.post(`${DB_PATH}/projects.json`, project)
+        navigate("/")
+
+    }
+        
   };
-
-
 
   useEffect(() => {
     if (auth.isAuthenticated === false) {
       navigate("/");
     }
-  }, []);
-
-
-  
-    const {acceptedFiles, getRootProps, getInputProps} = useDropzone();
-    
-    const files = acceptedFiles.map(file => (
-      <li key={file.path}>
-        {file.path} - {file.size} bytes
-      </li>
-    ));
+  }, [auth.isAuthenticated,navigate]);
 
 
 const [imageUpload, setImageUpload] = useState(null)
 const [imageList, setImageList] = useState([])
 
 const fileInputHandler = async (e) => {
-    if(e.target.files[0].size > 2097152) {
+    if(e.target.files[0].size > 2097152/2) {
         alert("file to big (maximum allowed size = 2mb")
     } else {
         setImageUpload(e.target.files[0])
@@ -71,23 +69,9 @@ useEffect(()=>{
     uploadImage()
 },[imageUpload])
 
-const imageListRef = ref(storage, "images/")
-// const listobrazki = ()=> {
-//     listAll(imageListRef).then((response)=>{
-//         response.items.forEach((item)=>{
-//             getDownloadURL(item).then((url)=>{
-//                 setImageList((prev) => [...prev, url])
-                
-//             })
-//         })
-//     })
-// }
-
-
-
 useEffect(()=>{
     if(imageList) {
-       setProject({...project, pictures: imageList})
+       setProject({...project, big: imageList, thumbnail: imageList[0]})
     }
   },[imageList])
 
@@ -139,8 +123,8 @@ const uploadImage = ()=> {
           <input
             type="text"
             id="name"
-            value={project.name}
-            onChange={(e) => setProject({ ...project, name: e.target.value })}
+            value={project.title}
+            onChange={(e) => setProject({ ...project, title: e.target.value })}
             className={classes.input}
           ></input>
 
@@ -160,7 +144,7 @@ const uploadImage = ()=> {
 
     <div className={classes.miniPicGrid}>
         {imageList.map((url)=>{
-        return <img src={url} className={classes.miniPic}/>
+        return <img src={url} className={classes.miniPic} alt="" key={url}/>
         })}
         <label className={classes.addPic}>
             <input 
@@ -178,8 +162,6 @@ const uploadImage = ()=> {
             Add Project
           </button>
         </form>
-        <button onClick={uploadImage}>Upload</button>
-        <button onClick={(e)=>{console.log(acceptedFiles)}}>acceptedFiles</button>
         
       </motion.section>
     </AnimatePresence>

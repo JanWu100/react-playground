@@ -13,8 +13,9 @@ const Project = (props) => {
   }
   const params = useParams();
   const currentItem = props.projects.filter(
-    (x) => x.id === parseInt(params.id)
+    (x) => x.id === params.id
   )[0];
+
 
   return (
     <>

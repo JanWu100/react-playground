@@ -7,8 +7,9 @@ import { motion } from "framer-motion";
 const Photos = (props) => {
   const params = useParams();
   const currentItem = props.projects.filter(
-    (x) => x.id === parseInt(params.id)
+    (x) => x.id === params.id
   )[0];
+
   const photos = currentItem.big;
 
   return (
@@ -33,7 +34,7 @@ const Photos = (props) => {
             <img
               className={classes.photo}
               key={Math.random()}
-              src={`../${photo}`}
+              src={photo}
               alt=""
             ></img>
           ))}

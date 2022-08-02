@@ -1,11 +1,10 @@
-import React, {useState } from "react";
+import React, {useEffect, useState } from "react";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer/Footer";
 import Project from "./components/Project/Project";
-import DUMMY_DATA from "./assets/data.json";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Photos from "./components/Photos/Photos";
 import About from "./components/pages/About/About";
@@ -13,9 +12,29 @@ import Contact from "./components/Contact/Contact"
 import Login from "./components/pages/Login/Login";
 import AuthContext from "./components/context/authContext";
 import AddProject from "./components/pages/AddProject/AddProject";
+import axios from "axios";
 
 function App() {
-  const projects = DUMMY_DATA.projects;
+  const [projects, setProjects] = useState([])
+  const DB_PATH = process.env.REACT_APP_DB_PATH
+
+  useEffect(()=>{
+    fetchData()
+  },[projects])
+
+  const fetchData = async () => {
+    try {
+      const res = await axios.get(`${DB_PATH}/projects.json`)
+      const newProject = []
+      for (const key in res.data) {
+        newProject.push({...res.data[key], id: key})
+      }
+      setProjects(newProject.reverse())
+
+    } catch (ex) {
+      console.log(ex.response)
+    }
+  }
 
   const [userLogged, setUserLogged ] = useState(false)
 
