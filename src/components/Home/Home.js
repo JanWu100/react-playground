@@ -14,6 +14,7 @@ const Home = (props) => {
   }
   const auth = useContext(AuthContext)
 
+
   return (
     <motion.section
       initial={from ? { x: -300, opacity: 0 } : { x: 0, opacity: 0 }}
@@ -22,6 +23,7 @@ const Home = (props) => {
       className={classes.homeContainer}
     >
       <h1 className={classes.lead}>
+        
         Architecture studio based in Poznan, Poland. Architecture, interiors,
         design.
       </h1>

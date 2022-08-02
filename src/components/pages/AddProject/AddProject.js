@@ -5,6 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/authContext";
+import { storage } from '../../../firebase';
+import { ref, uploadBytes, listAll, getDownloadURL} from "firebase/storage"
+import { v4 } from "uuid"
+
 
 const AddProject = () => {
   // const [type, setType] = useState("")
@@ -13,6 +17,7 @@ const AddProject = () => {
   const auth = useContext(AuthContext);
 
   const [project, setProject] = useState({
+    id: `${v4()}`,
     type: 1,
     name: "",
     description: "",
@@ -27,10 +32,12 @@ const AddProject = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-
-    console.log(project);
-    console.log(acceptedFiles)
+    
+        console.log(project)
+        console.log(acceptedFiles)
   };
+
+
 
   useEffect(() => {
     if (auth.isAuthenticated === false) {
@@ -49,7 +56,51 @@ const AddProject = () => {
     ));
 
 
+const [imageUpload, setImageUpload] = useState(null)
+const [imageList, setImageList] = useState([])
 
+const fileInputHandler = async (e) => {
+    if(e.target.files[0].size > 2097152) {
+        alert("file to big (maximum allowed size = 2mb")
+    } else {
+        setImageUpload(e.target.files[0])
+    }
+
+}
+useEffect(()=>{
+    uploadImage()
+},[imageUpload])
+
+const imageListRef = ref(storage, "images/")
+// const listobrazki = ()=> {
+//     listAll(imageListRef).then((response)=>{
+//         response.items.forEach((item)=>{
+//             getDownloadURL(item).then((url)=>{
+//                 setImageList((prev) => [...prev, url])
+                
+//             })
+//         })
+//     })
+// }
+
+
+
+useEffect(()=>{
+    if(imageList) {
+       setProject({...project, pictures: imageList})
+    }
+  },[imageList])
+
+
+const uploadImage = ()=> {
+    if (imageUpload == null) return;
+    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`)
+    uploadBytes(imageRef, imageUpload).then((snapshot)=>{
+        getDownloadURL(snapshot.ref).then((url)=>{
+            setImageList((prev) => [...prev, url])
+        })
+    })
+}
 
   return (
     <AnimatePresence>
@@ -105,22 +156,31 @@ const AddProject = () => {
           ></textarea>
 
 
+<label>Pictures</label>
 
-<section className="container">
-      <div {...getRootProps({className: 'dropzone'})}  className={classes.dropzone}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
-      </div>
-      <aside>
-        <h4>Files</h4>
-        <ul>{files}</ul>
-      </aside>
-    </section>
+    <div className={classes.miniPicGrid}>
+        {imageList.map((url)=>{
+        return <img src={url} className={classes.miniPic}/>
+        })}
+        <label className={classes.addPic}>
+            <input 
+                type="file" 
+                id="file" 
+                onChange={fileInputHandler} 
+                accept="image/*"
+                className={classes.addPic}></input>
+            Add Picture
+        </label>
+    </div>
+
 
           <button type="submit" className={classes.button}>
             Add Project
           </button>
         </form>
+        <button onClick={uploadImage}>Upload</button>
+        <button onClick={(e)=>{console.log(acceptedFiles)}}>acceptedFiles</button>
+        
       </motion.section>
     </AnimatePresence>
   );
