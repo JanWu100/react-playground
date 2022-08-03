@@ -3,11 +3,12 @@ import classes from "./Photos.module.css";
 import arrow from "../../../assets/arrow.svg";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 
 const Photos = (props) => {
   const params = useParams();
   const currentItem = props.projects.filter(
-    (x) => x.id === params.id
+    (x) => stringToUrlFriendly(x.title) === params.title
   )[0];
 
   const photos = currentItem.big;
@@ -22,7 +23,7 @@ const Photos = (props) => {
       >
         <div className={classes.navbar}>
           <Link
-            to={`/${params.type}/${params.id}`}
+            to={`/${params.title}`}
             state={{ from: "photos" }}
             className={classes.arrowLink}
           >

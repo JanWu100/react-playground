@@ -1,11 +1,12 @@
 import classes from "./Thumbnail.module.css";
 import { Link } from "react-router-dom";
+import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 
 const Thumbnail = ({ type, id, thumbnail, title }) => {
 
   if (id) {
     return (
-      <Link to={`/${type}/${id}`} className={classes.link}>
+      <Link to={`${stringToUrlFriendly(title)}`} className={classes.link}>
         <div className={classes.card}>
           <img className={classes.photo} src={thumbnail} alt=""></img>
           <div className={classes.cardBody}>

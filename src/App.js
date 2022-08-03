@@ -56,11 +56,17 @@ function App() {
                   </>
       )} />
 
-      <Route path=":type/:id/photos" element={
+      <Route path=":title/photos" element={
                   <Photos projects={projects}/>
       } />
 
-      <Route path=":type/:id" element={(<>
+      {/* <Route path=":type/:id" element={(<>
+                  {navbar}
+                  <Project projects={projects} />
+                  </>
+      )} /> */}
+
+      <Route path=":title" element={(<>
                   {navbar}
                   <Project projects={projects} />
                   </>

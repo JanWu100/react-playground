@@ -3,6 +3,8 @@ import { useParams, useLocation } from "react-router-dom";
 import ContactBar from "../../Footer/ContactBar";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 
 const Project = (props) => {
   const location = useLocation()
@@ -13,9 +15,8 @@ const Project = (props) => {
   }
   const params = useParams();
   const currentItem = props.projects.filter(
-    (x) => x.id === params.id
+    (x) => stringToUrlFriendly(x.title) === params.title
   )[0];
-
 
   return (
     <>
@@ -30,7 +31,7 @@ const Project = (props) => {
         <p className={classes.description}>{currentItem.description}</p>
         <div className={classes.picturesGrid}>
           {currentItem.big.map((image) => (
-            <Link to={`/${params.type}/${params.id}/photos`} key={image}>
+            <Link to={`/${params.title}/photos`} key={image}>
               <img className={classes.picture} src={image} alt=""></img>
             </Link>
           ))}
