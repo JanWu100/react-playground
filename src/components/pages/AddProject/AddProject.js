@@ -9,6 +9,7 @@ import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { v4 } from "uuid";
 import axios from "axios";
 import Input from "../../input/Input";
+import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 
 const AddProject = () => {
   const navigate = useNavigate();
@@ -38,10 +39,23 @@ const AddProject = () => {
     } else if (project.big.length === 0) {
       console.log("Project needs some pictures");
     } else {
-      // console.log(project)
       const DB_PATH = process.env.REACT_APP_DB_PATH;
+      const res = await axios.get(`${DB_PATH}/projects.json`);
+      const currentTitles =[]
+   
+      Object.entries(res.data).forEach(([key, value]) => {
+        currentTitles.push(stringToUrlFriendly(value.title))
+      });
+
+      if(currentTitles.includes(stringToUrlFriendly(project.title))) {
+        console.log("Title already in use");
+        return;
+      } 
+
       await axios.post(`${DB_PATH}/projects.json`, project);
       navigate("/");
+      
+
     }
   };
 
