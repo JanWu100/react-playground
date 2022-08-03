@@ -46,3 +46,12 @@
 input[type="file"] {
   display: none;
 }
+
+.errorMessage {
+  text-align: right;
+}
+
+.invalid {
+  color: rgb(143, 40, 40);
+  border-color: rgb(143, 40, 40);
+}
