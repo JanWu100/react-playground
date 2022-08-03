@@ -23,7 +23,6 @@ const Home = (props) => {
       className={classes.homeContainer}
     >
       <h1 className={classes.lead}>
-        
         Architecture studio based in Poznan, Poland. Architecture, interiors,
         design.
       </h1>

@@ -1,6 +1,6 @@
 import classes from "./Project.module.css";
 import { useParams, useLocation } from "react-router-dom";
-import ContactBar from "../Footer/ContactBar";
+import ContactBar from "../../Footer/ContactBar";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 

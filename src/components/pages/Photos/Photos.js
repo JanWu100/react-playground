@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import classes from "./Photos.module.css";
-import arrow from "../../assets/arrow.svg";
+import arrow from "../../../assets/arrow.svg";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 

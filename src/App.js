@@ -4,9 +4,9 @@ import Layout from "./components/Layout/Layout";
 import Navbar from "./components/Navbar/Navbar";
 import Home from "./components/Home/Home";
 import Footer from "./components/Footer/Footer";
-import Project from "./components/Project/Project";
+import Project from "./components/pages/Project/Project";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Photos from "./components/Photos/Photos";
+import Photos from "./components/pages/Photos/Photos";
 import About from "./components/pages/About/About";
 import Contact from "./components/Contact/Contact"
 import Login from "./components/pages/Login/Login";

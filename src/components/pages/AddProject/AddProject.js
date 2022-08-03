@@ -1,26 +1,26 @@
-import React from 'react'
+import React from "react";
 import classes from "./AddProject.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/authContext";
-import { storage } from '../../../firebase';
-import { ref, uploadBytes, getDownloadURL} from "firebase/storage"
-import { v4 } from "uuid"
-import axios from 'axios';
-
+import { storage } from "../../../firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { v4 } from "uuid";
+import axios from "axios";
+import Input from "../../input/Input";
 
 const AddProject = () => {
-
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
 
   const [project, setProject] = useState({
     type: "Project",
     title: "",
-    description: "Sed senectus quam tempor pharetra tincidunt. Urna, venenatis netus lacus, odio. Turpis lorem quis ut in. Tincidunt aliquam vitae, fermentum quis nibh dignissim. Commodo amet phasellus urna cursus fermentum. Id purus quam viverra tempus nec bibendum amet. Natoque neque eget platea in tempus. Nunc rhoncus aliquet pellentesque quis vitae ornare justo hac. Gravida integer eget purus risus eget. Quisque pellentesque proin vestibulum commodo.",
+    description:
+      "Sed senectus quam tempor pharetra tincidunt. Urna, venenatis netus lacus, odio. Turpis lorem quis ut in. Tincidunt aliquam vitae, fermentum quis nibh dignissim. Commodo amet phasellus urna cursus fermentum. Id purus quam viverra tempus nec bibendum amet. Natoque neque eget platea in tempus. Nunc rhoncus aliquet pellentesque quis vitae ornare justo hac. Gravida integer eget purus risus eget. Quisque pellentesque proin vestibulum commodo.",
     big: [],
-    thumbnail: null
+    thumbnail: null,
   });
 
   const options = [
@@ -31,60 +31,68 @@ const AddProject = () => {
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    if(project.title.length === 0) {
-        console.log("Project needs a title")
+    if (project.title.length === 0) {
+      console.log("Project needs a title");
     } else if (project.description.length === 0) {
-        console.log("Project needs a description")
+      console.log("Project needs a description");
     } else if (project.big.length === 0) {
-        console.log("Project needs some pictures")
+      console.log("Project needs some pictures");
     } else {
-        // console.log(project)
-        const DB_PATH = process.env.REACT_APP_DB_PATH
-        await axios.post(`${DB_PATH}/projects.json`, project)
-        navigate("/")
-
+      // console.log(project)
+      const DB_PATH = process.env.REACT_APP_DB_PATH;
+      await axios.post(`${DB_PATH}/projects.json`, project);
+      navigate("/");
     }
-        
   };
 
   useEffect(() => {
     if (auth.isAuthenticated === false) {
       navigate("/");
     }
-  }, [auth.isAuthenticated,navigate]);
+  }, [auth.isAuthenticated, navigate]);
 
+  const [imageUpload, setImageUpload] = useState(null);
+  const [imageList, setImageList] = useState([]);
 
-const [imageUpload, setImageUpload] = useState(null)
-const [imageList, setImageList] = useState([])
-
-const fileInputHandler = async (e) => {
-    if(e.target.files[0].size > 2097152/2) {
-        alert("file to big (maximum allowed size = 2mb")
+  const fileInputHandler = async (file) => {
+    if (file.size > 2097152 / 2) {
+      alert("file to big (maximum allowed size = 2mb");
     } else {
-        setImageUpload(e.target.files[0])
+      setImageUpload(file);
     }
+  };
 
-}
-useEffect(()=>{
-    uploadImage()
-},[imageUpload])
+  //   const fileInputHandler = async (e) => {
+  //     if (e.target.files[0].size > 2097152 / 2) {
+  //       alert("file to big (maximum allowed size = 2mb");
+  //     } else {
+  //       setImageUpload(e.target.files[0]);
+  //     }
+  //   };
 
-useEffect(()=>{
-    if(imageList) {
-       setProject({...project, big: imageList, thumbnail: imageList[0]})
+  useEffect(() => {
+    uploadImage();
+  }, [imageUpload]);
+
+  useEffect(() => {
+    if (imageList) {
+      setProject({ ...project, big: imageList, thumbnail: imageList[0] });
     }
-  },[imageList])
+  }, [imageList]);
 
-
-const uploadImage = ()=> {
+  const uploadImage = () => {
     if (imageUpload == null) return;
-    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`)
-    uploadBytes(imageRef, imageUpload).then((snapshot)=>{
-        getDownloadURL(snapshot.ref).then((url)=>{
-            setImageList((prev) => [...prev, url])
-        })
-    })
-}
+    const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
+    uploadBytes(imageRef, imageUpload).then((snapshot) => {
+      getDownloadURL(snapshot.ref).then((url) => {
+        setImageList((prev) => [...prev, url]);
+      });
+    });
+  };
+
+  const inputChangeHandler = (value, description) => {
+    setProject({ ...project, [description]: value });
+  };
 
   return (
     <AnimatePresence>
@@ -97,72 +105,57 @@ const uploadImage = ()=> {
       >
         <h4 className={classes.headerText}>Add Project</h4>
         <form onSubmit={submitHandler}>
-          {/* <label htmlFor="type">Type</label>
-          <input
-            type="text"
-            id="type"
+          <Input
             value={project.type}
-            onChange={(e) => setProject({ ...project, type: e.target.value })}
-            className={classes.input}
-          ></input> */}
-
-          <label htmlFor="type">Type</label>
-          <select
-            value={project.type}
-            onChange={(e) => setProject({ ...project, type: e.target.value })}
-            className={classes.select}
+            type="select"
+            id="Type"
+            options={options}
+            onChange={(val) => inputChangeHandler(val, "type")}
           >
-            {options.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
+            Type
+          </Input>
 
-          <label htmlFor="name">Project's Name</label>
-          <input
-            type="text"
-            id="name"
+          <Input
             value={project.title}
-            onChange={(e) => setProject({ ...project, title: e.target.value })}
-            className={classes.input}
-          ></input>
-
-          <label htmlFor="description">Description</label>
-          <textarea
             type="text"
-            id="description"
+            id="Title"
+            onChange={(val) => inputChangeHandler(val, "title")}
+          >
+            Project's name
+          </Input>
+
+          <Input
             value={project.description}
-            onChange={(e) =>
-              setProject({ ...project, description: e.target.value })
-            }
-            className={classes.textarea}
-          ></textarea>
+            type="textarea"
+            id="Description"
+            onChange={(val) => inputChangeHandler(val, "description")}
+          >
+            Description
+          </Input>
 
+          <label>Pictures</label>
 
-<label>Pictures</label>
+          <div className={classes.miniPicGrid}>
+            {imageList.map((url) => {
+              return (
+                <img src={url} className={classes.miniPic} alt="" key={url} />
+              );
+            })}
 
-    <div className={classes.miniPicGrid}>
-        {imageList.map((url)=>{
-        return <img src={url} className={classes.miniPic} alt="" key={url}/>
-        })}
-        <label className={classes.addPic}>
-            <input 
-                type="file" 
-                id="file" 
-                onChange={fileInputHandler} 
-                accept="image/*"
-                className={classes.addPic}></input>
-            Add Picture
-        </label>
-    </div>
+            <Input
+              type="file"
+              id="File"
+              onChange={(file) => fileInputHandler(file)}
+            >
+              Add picture
+            </Input>
 
+          </div>
 
           <button type="submit" className={classes.button}>
             Add Project
           </button>
         </form>
-        
       </motion.section>
     </AnimatePresence>
   );
