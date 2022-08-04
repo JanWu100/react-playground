@@ -17,6 +17,19 @@
     grid-template-columns: repeat(2, 1fr);
 }
 
+.spinnerContainer {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.spinner {
+    width: 5rem;
+    height: 5rem;
+    border-width: .4rem
+}
+
 @media (min-width: 580px) {
     .projects {
         grid-template-columns: repeat(3, 1fr);

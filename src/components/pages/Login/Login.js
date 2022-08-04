@@ -3,19 +3,41 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useContext} from "react";
 import AuthContext from "../../context/authContext";
+import Button from "../../Button/Button";
+import Input from "../../input/Input";
 
 const Login = () => {
-    const [email, setEmail] = useState("dsa@sda")
-    const [password, setPassword] = useState("")
+
+    const [user, setUser] = useState({
+      email: "dsa@dsa",
+      password: ""
+    })
+
     const navigate = useNavigate()
     const auth = useContext(AuthContext)
+    const [loading, setLoading] = useState(false)
 
     const submitHandler = (e) => {
         e.preventDefault()
-        auth.login()
-        navigate("/")
-
+        setLoading(true)
+        setTimeout(()=>{
+          auth.login()
+          navigate("/")
+          // setLoading(false)
+        }, 1000)
     }
+
+    const [valid, setValid] = useState({
+      email: [true, ""],
+      password: [true, ""],
+    })
+
+    const inputChangeHandler = (value, description) => {
+      setUser({ ...user, [description]: value });
+      setValid({...valid, [description]: [true, ""]})
+    };
+    
+
   return (
     <AnimatePresence>
       <motion.section
@@ -27,12 +49,27 @@ const Login = () => {
       >
         <h4 className={classes.headerText}>Login</h4>
         <form onSubmit={submitHandler}>
-            <label htmlFor="email">Email</label>
-            <input type="email" id="email" value={email} onChange={e => setEmail(e.target.value)} className={classes.input}></input>
-            <label htmlFor="password">Password</label>
+              <Input
+                value={user.email}
+                type="email"
+                id="email"
+                onChange={(val) => inputChangeHandler(val, "email")}
+                valid={valid.email}
+                >
+                Email
+              </Input>
 
-            <input type="password" id="password" value={password} onChange={e => setPassword(e.target.value)} className={classes.input}></input>
-            <button type="submit" className={classes.button}>Login</button>
+              <Input
+                value={user.password}
+                type="password"
+                id="password"
+                onChange={(val) => inputChangeHandler(val, "password")}
+                valid={valid.password}
+                >
+                Password
+              </Input>
+
+            <Button type="submit" label="Login" loading={loading} />
         </form>
         <p className={classes.bodyText}>Not a member?  
             <Link to="/register" className={classes.register}>Register</Link>

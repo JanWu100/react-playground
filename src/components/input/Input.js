@@ -75,6 +75,38 @@ const InputFile = (props) => {
   );
 };
 
+const InputEmail = (props) => {
+  return (
+    <>
+      <label htmlFor={props.id} className={`${classes.label} ${!props.valid[0] ? classes.invalid : null }`}>{props.children}</label>
+      <input
+        type="email"
+        id={props.id}
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+        className={`${classes.input} ${classes.textInput} ${!props.valid[0] ? classes.invalid : null}`}
+      ></input>
+      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
+    </>
+  );
+};
+
+const InputPassword = (props) => {
+  return (
+    <>
+      <label htmlFor={props.id} className={`${classes.label} ${!props.valid[0] ? classes.invalid : null }`}>{props.children}</label>
+      <input
+        type="password"
+        id={props.id}
+        value={props.value}
+        onChange={(e) => props.onChange(e.target.value)}
+        className={`${classes.input} ${classes.textInput} ${!props.valid[0] ? classes.invalid : null}`}
+      ></input>
+      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
+    </>
+  );
+};
+
 const Input = (props) => {
   switch (props.type) {
     case "text":
@@ -85,6 +117,10 @@ const Input = (props) => {
       return <InputSelect {...props} />;
     case "file":
       return <InputFile {...props} />;
+    case "email":
+      return <InputEmail {...props} />
+    case "password":
+      return <InputPassword {...props} />
   }
 };
 

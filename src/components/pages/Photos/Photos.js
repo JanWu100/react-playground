@@ -1,13 +1,16 @@
 import { useParams } from "react-router-dom";
+import { useContext } from "react";
 import classes from "./Photos.module.css";
 import arrow from "../../../assets/arrow.svg";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { stringToUrlFriendly } from "../../../helpers/formatUrl";
+import DataContext from "../../context/dataContext";
 
-const Photos = (props) => {
+const Photos = () => {
   const params = useParams();
-  const currentItem = props.projects.filter(
+  const dataContext = useContext(DataContext)
+  const currentItem = dataContext.projects.filter(
     (x) => stringToUrlFriendly(x.title) === params.title
   )[0];
 

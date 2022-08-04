@@ -4,7 +4,10 @@ import ContactBar from "../Footer/ContactBar";
 import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import AuthContext from "../context/authContext";
-import { useContext } from "react";
+import { useContext, useState, useEffect} from "react";
+import axios from "axios";
+import DataContext from "../context/dataContext";
+
 
 const Home = (props) => {
   const location = useLocation()
@@ -12,8 +15,24 @@ const Home = (props) => {
   if(location.state) {
     from = location.state.from
   }
-  const auth = useContext(AuthContext)
 
+  const [loading, setLoading] = useState(false)
+
+  const auth = useContext(AuthContext)
+  const dataContext = useContext(DataContext)
+
+  if(loading) {
+    return (
+      <div className={classes.spinnerContainer}>
+              <span
+      className={`spinner-border me-3 ${classes.spinner}`}
+      role="status"
+      aria-hidden="true"
+    ></span>
+      </div>
+
+    )
+  }
 
   return (
     <motion.section
@@ -27,7 +46,7 @@ const Home = (props) => {
         design.
       </h1>
       <div className={classes.projects}>
-        {props.projects.map((project) => (
+        {dataContext.projects.map((project) => (
           <Thumbnail key={project.id} {...project} />
         ))}
        {auth.isAuthenticated === true ? <Thumbnail /> : null}

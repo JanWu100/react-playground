@@ -10,11 +10,15 @@ import { v4 } from "uuid";
 import axios from "axios";
 import Input from "../../input/Input";
 import { stringToUrlFriendly } from "../../../helpers/formatUrl";
+import Button from "../../Button/Button";
+import DataContext from "../../context/dataContext";
 
 const AddProject = () => {
   const navigate = useNavigate();
   const auth = useContext(AuthContext);
+  const dataContext = useContext(DataContext)
 
+  const [loading, setLoading] = useState(false)
   const [project, setProject] = useState({
     type: "Project",
     title: "",
@@ -66,36 +70,45 @@ const AddProject = () => {
   }
 
   const addProjectToDatabase = async () => {
-    if (project.title.length + project.description.length === 0) {
-      setValid({...valid, title: [false, "Testowy msg"], description: [false, "Testowy msg"]})
-    } else if (project.title.length === 0) {
-      setValid({...valid, title: [false, "Testowy msg"]})
-    } else if (project.description.length === 0) {
-      setValid({...valid, description: [false, "Testowy msg"]})
-    } else if (project.big.length === 0) {
-      console.log("Project needs some pictures");
-    } else {
-      
-      const res = await axios.get(`${DB_PATH}/projects.json`);
-      const currentTitles =[]
+    
+    
 
-      if(res.data) {
-        Object.entries(res.data).forEach(([key, value]) => {
-          currentTitles.push(stringToUrlFriendly(value.title))
-        });     
+      if (project.title.length + project.description.length === 0) {
+        setValid({...valid, title: [false, "Testowy msg"], description: [false, "Testowy msg"]})
+      } else if (project.title.length === 0) {
+        setValid({...valid, title: [false, "Testowy msg"]})
+      } else if (project.description.length === 0) {
+        setValid({...valid, description: [false, "Testowy msg"]})
+      } else if (project.big.length === 0) {
+        console.log("Project needs some pictures");
+      } else {
+        setLoading(true)
+        
+        const res = await axios.get(`${DB_PATH}/projects.json`);
+        const currentTitles =[]
+  
+        if(res.data) {
+          Object.entries(res.data).forEach(([key, value]) => {
+            currentTitles.push(stringToUrlFriendly(value.title))
+          });     
+        }
+     
+  
+        if(currentTitles.includes(stringToUrlFriendly(project.title))) {
+          console.log("Title already in use");
+          setValid({...valid, title: [false, "Title used"]})
+          setLoading(false)
+          return;
+        } 
+  
+        await axios.post(`${DB_PATH}/projects.json`, project);
+        dataContext.fetchProjects()
+        navigate("/");
+        
       }
-   
 
-      if(currentTitles.includes(stringToUrlFriendly(project.title))) {
-        console.log("Title already in use");
-        setValid({...valid, title: [false, "Title used"]})
-        return;
-      } 
-
-      await axios.post(`${DB_PATH}/projects.json`, project);
-      navigate("/");
-      
-    }
+    
+    
   }
 
   useEffect(() => {
@@ -184,7 +197,7 @@ const AddProject = () => {
                 >
                 Description
               </Input>
-              <label>Pictures</label>
+              <label className={classes.label}>Pictures</label>
               <div className={classes.miniPicGrid}>
                 {imageList.map((url) => {
                   return (
@@ -213,7 +226,7 @@ const AddProject = () => {
                 >
                 Link to {project.type === "Article" ? "Article" : "Award"}
               </Input>
-              <label>Thumbnail</label>
+              <label className={classes.label}>Thumbnail</label>
               <div className={classes.miniPicGrid}>
               {imageList[0] ? <img src={imageList[0]} className={classes.miniPic} alt="" key={imageList[0]} /> : null }    
               
@@ -228,14 +241,8 @@ const AddProject = () => {
               </div>
             </>
           )      
-          
           }
-
-
-
-          <button type="submit" className={classes.button}>
-            Add Project
-          </button>
+          <Button type="submit" label="Add Project" loading={loading}/>
         </form>
       </motion.section>
     </AnimatePresence>

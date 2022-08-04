@@ -11,32 +11,14 @@ import About from "./components/pages/About/About";
 import Contact from "./components/Contact/Contact"
 import Login from "./components/pages/Login/Login";
 import AuthContext from "./components/context/authContext";
+import DataContext from "./components/context/dataContext";
 import AddProject from "./components/pages/AddProject/AddProject";
 import axios from "axios";
 
 function App() {
-  const [projects, setProjects] = useState([])
-  const DB_PATH = process.env.REACT_APP_DB_PATH
-
-  useEffect(()=>{
-    fetchData()
-  },[projects])
-
-  const fetchData = async () => {
-    try {
-      const res = await axios.get(`${DB_PATH}/projects.json`)
-      const newProject = []
-      for (const key in res.data) {
-        newProject.push({...res.data[key], id: key})
-      }
-      setProjects(newProject.reverse())
-
-    } catch (ex) {
-      console.log(ex.response)
-    }
-  }
-
+  const [loading, setLoading] = useState(false)
   const [userLogged, setUserLogged ] = useState(false)
+  const [data,setData] = useState([])
 
   const [showContact, setShowContact] = useState(null)
   const onContactHandler =()=> {
@@ -45,6 +27,30 @@ function App() {
   const hideContact = ()=> {
     setShowContact(null)
   }
+
+  const DB_PATH = process.env.REACT_APP_DB_PATH
+
+  useEffect(()=>{
+    fetchData()
+  },[])
+
+  const fetchData = async () => {
+    setLoading(true)
+
+    try {
+      console.log("znowu przeladowalo")
+      const res = await axios.get(`${DB_PATH}/projects.json`)
+      const newProject = []
+      for (const key in res.data) {
+        newProject.push({...res.data[key], id: key})
+      }
+      setData(newProject.reverse())
+      setLoading(false)
+
+    } catch (ex) {
+      console.log(ex.response)
+    }
+  }
   
 
   const navbar = <Navbar onContact={onContactHandler}/>;
@@ -52,27 +58,21 @@ function App() {
     <Routes>
       <Route path="/" element={(
                   <>
-                  {navbar} <Home projects={projects} />
+                  {navbar} <Home />
                   </>
       )} />
 
       <Route path=":title/photos" element={
-                  <Photos projects={projects}/>
+                  <Photos />
       } />
-
-      {/* <Route path=":type/:id" element={(<>
-                  {navbar}
-                  <Project projects={projects} />
-                  </>
-      )} /> */}
 
       <Route path=":title" element={(<>
                   {navbar}
-                  <Project projects={projects} />
+                  <Project />
                   </>
       )} />
 
-        <Route path="about" element={(<>
+      <Route path="about" element={(<>
                   {navbar}
                   <About />
                   </>
@@ -103,10 +103,17 @@ function App() {
           login: ()=>{setUserLogged(true)},
           logout: ()=>{setUserLogged(false)}
         }}>
-        <Layout 
-        content={content} 
-        contact={showContact !== null ? contact : null}
-        footer={footer} />
+        <DataContext.Provider
+          value={{
+            projects: data,
+            setProjects: (data)=>{setData(data)},
+            fetchProjects: ()=>{fetchData()}}
+          }>
+            <Layout 
+            content={content} 
+            contact={showContact !== null ? contact : null}
+            footer={footer} />
+        </DataContext.Provider>
       </AuthContext.Provider>
     </BrowserRouter>
   );

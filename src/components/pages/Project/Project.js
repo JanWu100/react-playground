@@ -3,18 +3,22 @@ import { useParams, useLocation } from "react-router-dom";
 import ContactBar from "../../Footer/ContactBar";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect , useContext} from "react";
 import { stringToUrlFriendly } from "../../../helpers/formatUrl";
+import DataContext from "../../context/dataContext";
 
-const Project = (props) => {
+const Project = () => {
   const location = useLocation()
   let from = null;
   if ( location.state) {
    from = location.state.from
-
   }
+
+  const projects = useContext(DataContext)
+
+
   const params = useParams();
-  const currentItem = props.projects.filter(
+  const currentItem = projects.projects.filter(
     (x) => stringToUrlFriendly(x.title) === params.title
   )[0];
 
