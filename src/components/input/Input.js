@@ -3,7 +3,7 @@ import classes from "./Input.module.css";
 const ErrorMessage = (props) => {
   return (
     <>
-      {!props.valid ? <h4 className={`${classes.invalid} ${classes.errorMessage}`}>{props.children}</h4> : null}
+      {!props.valid[0] ? <h4 className={`${classes.invalid} ${classes.errorMessage}`}>{props.children}</h4> : null}
     </>
   )
 }
@@ -11,15 +11,15 @@ const ErrorMessage = (props) => {
 const InputText = (props) => {
   return (
     <>
-      <label htmlFor={props.id} className={`${!props.valid ? classes.invalid : null }`}>{props.children}</label>
+      <label htmlFor={props.id} className={`${classes.label} ${!props.valid[0] ? classes.invalid : null }`}>{props.children}</label>
       <input
         type="text"
         id={props.id}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
-        className={`${classes.textInput} ${!props.valid ? classes.invalid : null}`}
+        className={`${classes.input} ${classes.textInput} ${!props.valid[0] ? classes.invalid : null}`}
       ></input>
-      <ErrorMessage {...props}>{props.errorMessage}</ErrorMessage>
+      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
     </>
   );
 };
@@ -27,14 +27,14 @@ const InputText = (props) => {
 const InputArea = (props) => {
   return (
     <>
-      <label htmlFor={props.id} className={`${!props.valid ? classes.invalid : null }`}>{props.children}</label>
+      <label htmlFor={props.id} className={`${classes.label} ${!props.valid[0] ? classes.invalid : null }`}>{props.children}</label>
       <textarea
         id={props.id}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
-        className={`${classes.textarea} ${!props.valid ? classes.invalid : null}`}
+        className={` ${classes.input} ${classes.textarea} ${!props.valid[0] ? classes.invalid : null}`}
       ></textarea>
-      <ErrorMessage {...props}>{props.errorMessage}</ErrorMessage>
+      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
     </>
   );
 };
@@ -42,11 +42,11 @@ const InputArea = (props) => {
 const InputSelect = (props) => {
   return (
     <>
-      <label htmlFor="type">Type</label>
+      <label htmlFor="type" className={`${classes.label}`}>Type</label>
       <select
         value={props.value}
         onChange={(e) => props.onChange(e.target.value)}
-        className={classes.select}
+        className={`${classes.input} ${classes.select}`}
       >
         {props.options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -61,12 +61,13 @@ const InputSelect = (props) => {
 const InputFile = (props) => {
   return (
     <>
-      <label className={classes.addPic}>
+      <label className={`${classes.label} ${classes.addPic}`}>
         <input
           type="file"
           id={props.id}
           onChange={(e) => props.onChange(e.target.files[0])}
           accept="image/*"
+          className={classes.fileInput}
         ></input>
         {props.children}
       </label>

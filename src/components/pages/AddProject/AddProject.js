@@ -32,9 +32,9 @@ const AddProject = () => {
   ];
 
   const [valid, setValid] = useState({
-    title: true,
-    description: true,
-    link: true
+    title: [true, ""],
+    description: [true, ""],
+    link: [true, ""]
   })
 
   const submitHandler = async (e) => {
@@ -50,11 +50,11 @@ const AddProject = () => {
 
   const addAwardOrArticleToDatabase = async () => {
     if (project.title.length + project.link.length === 0) {
-      setValid({...valid, title: false, link: false})
+      setValid({...valid, title: [false, "Testowy msg"], link: [false, "Testowy msg"]})
     } else if (project.title.length === 0) {
-      setValid({...valid, title: false})
+      setValid({...valid, title: [false, "Testowy msg"]})
     } else if (project.link.length === 0) {
-      setValid({...valid, link: false})
+      setValid({...valid, link: [false, "Testowy msg"]})
     } else if (project.big.length === 0) {
       console.log("Project needs some pictures");
     } else {
@@ -67,24 +67,28 @@ const AddProject = () => {
 
   const addProjectToDatabase = async () => {
     if (project.title.length + project.description.length === 0) {
-      setValid({...valid, title: false, description: false})
+      setValid({...valid, title: [false, "Testowy msg"], description: [false, "Testowy msg"]})
     } else if (project.title.length === 0) {
-      setValid({...valid, title: false})
+      setValid({...valid, title: [false, "Testowy msg"]})
     } else if (project.description.length === 0) {
-      setValid({...valid, description: false})
+      setValid({...valid, description: [false, "Testowy msg"]})
     } else if (project.big.length === 0) {
       console.log("Project needs some pictures");
     } else {
       
       const res = await axios.get(`${DB_PATH}/projects.json`);
       const currentTitles =[]
+
+      if(res.data) {
+        Object.entries(res.data).forEach(([key, value]) => {
+          currentTitles.push(stringToUrlFriendly(value.title))
+        });     
+      }
    
-      Object.entries(res.data).forEach(([key, value]) => {
-        currentTitles.push(stringToUrlFriendly(value.title))
-      });
 
       if(currentTitles.includes(stringToUrlFriendly(project.title))) {
         console.log("Title already in use");
+        setValid({...valid, title: [false, "Title used"]})
         return;
       } 
 
@@ -135,7 +139,7 @@ const AddProject = () => {
 
   const inputChangeHandler = (value, description) => {
     setProject({ ...project, [description]: value });
-    setValid({...valid, [description]: true})
+    setValid({...valid, [description]: [true, ""]})
   };
 
   return (
@@ -165,7 +169,6 @@ const AddProject = () => {
                 id="Title"
                 onChange={(val) => inputChangeHandler(val, "title")}
                 valid={valid.title}
-                errorMessage="Title required!"
                 >
                 Title
               </Input>
@@ -178,7 +181,6 @@ const AddProject = () => {
                 id="Description"
                 onChange={(val) => inputChangeHandler(val, "description")}
                 valid={valid.description}
-                errorMessage="Project needs a description!"
                 >
                 Description
               </Input>
@@ -208,7 +210,6 @@ const AddProject = () => {
                 id="Link"
                 onChange={(val) => inputChangeHandler(val, "link")}
                 valid={valid.link}
-                errorMessage="Link required."
                 >
                 Link to {project.type === "Article" ? "Article" : "Award"}
               </Input>

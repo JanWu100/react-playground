@@ -3,8 +3,9 @@ import arrow from "../../assets/arrow.svg";
 import { Link, useParams, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
-import { useContext} from "react";
+import { useContext, useState} from "react";
 import AuthContext from "../context/authContext";
+import Dropdown from "./Dropdown/Dropdown";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
@@ -12,11 +13,15 @@ const Navbar = (props) => {
   const auth = useContext(AuthContext)
   const navigate = useNavigate()
 
-  const logoutHandler = () => {
-    auth.logout()
-    navigate("/")
-  }
+  const [controlVisible, setControlVisible] = useState(false)
 
+  const controlHandler = (e) => {
+    if (controlVisible === false) {
+      setControlVisible(true)
+    } else {
+      setControlVisible(false)
+    }
+  }
 
   return (
     <nav className={classes.navbar}>
@@ -32,11 +37,15 @@ const Navbar = (props) => {
     
 
       <ul className={classes.list}>
-        <li className={classes.listItem}>
+        <li className={`${classes.listItem} ${classes.control}`}>
           {auth.isAuthenticated === false ? 
             <Link to="/login" className={classes.link}>Login</Link> 
             : 
-            <button className={classes.contactButton} onClick={logoutHandler}>Logout</button>}
+            <button className={classes.contactButton} onClick={controlHandler}>Control</button>}
+            {controlVisible ? (
+              <Dropdown closeDropdown={controlHandler}/>
+            )
+             : null}
         </li>
         <li className={classes.listItem}>
         {window.location.pathname === "/about" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/about" className={classes.link}>About</Link>}

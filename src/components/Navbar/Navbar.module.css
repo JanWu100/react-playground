@@ -56,7 +56,6 @@
     cursor: pointer;
   }
   
-  
   @media (min-width: 768px) {
     .listItem {
       padding-left: 1.5rem;
