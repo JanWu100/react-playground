@@ -3,7 +3,7 @@ import classes from "./Input.module.css";
 const ErrorMessage = (props) => {
   return (
     <>
-      {!props.valid[0] ? <h4 className={`${classes.invalid} ${classes.errorMessage}`}>{props.children}</h4> : null}
+      {!props.valid[0] ? <h4 className={`${classes.invalid} ${classes.errorMessage} ${props.type ? classes.invalidPicLabel : null}`}>{props.children}</h4> : null}
     </>
   )
 }
@@ -61,7 +61,10 @@ const InputSelect = (props) => {
 const InputFile = (props) => {
   return (
     <>
-      <label className={`${classes.label} ${classes.addPic}`}>
+      <label className={` 
+                          ${classes.label} 
+                          ${classes.addPic} 
+                          ${!props.valid[0] ? classes.invalidPic : null}`}>
         <input
           type="file"
           id={props.id}
@@ -69,8 +72,17 @@ const InputFile = (props) => {
           accept="image/*"
           className={classes.fileInput}
         ></input>
-        {props.children}
+        {props.loading ? 
+        (<div className={classes.spinnerContainer}>
+          <span
+          className={`spinner-border ${classes.spinner}`}
+          role="status"
+          aria-hidden="true"
+          ></span>
+          </div>) : props.children}
+        
       </label>
+      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
     </>
   );
 };
@@ -102,7 +114,7 @@ const InputPassword = (props) => {
         onChange={(e) => props.onChange(e.target.value)}
         className={`${classes.input} ${classes.textInput} ${!props.valid[0] ? classes.invalid : null}`}
       ></input>
-      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
+      <ErrorMessage {...props} type="file">{props.valid[1]}</ErrorMessage>
     </>
   );
 };

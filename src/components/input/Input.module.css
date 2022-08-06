@@ -60,7 +60,27 @@
   font-size: 1.1rem;
 }
 
+
 .invalid {
   color: rgb(143, 40, 40);
   border-color: rgb(143, 40, 40);
 }
+
+.invalidPicLabel {
+  color: rgb(143, 40, 40);
+  text-align: left; 
+}
+
+.invalidPic {
+  color: rgb(143, 40, 40);
+  border: 1px solid rgb(143, 40, 40);
+}
+
+.spinner {
+  width: 5rem;
+  height: 5rem;
+  border-width: .4rem;
+  /* border-color: #b7b6b0; */
+  color: #989898;
+}
+

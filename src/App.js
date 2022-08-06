@@ -16,7 +16,7 @@ import AddProject from "./components/pages/AddProject/AddProject";
 import axios from "axios";
 
 function App() {
-  const [loading, setLoading] = useState(false)
+  // const [loading, setLoading] = useState(false)
   const [userLogged, setUserLogged ] = useState(false)
   const [data,setData] = useState([])
 
@@ -35,17 +35,16 @@ function App() {
   },[])
 
   const fetchData = async () => {
-    setLoading(true)
+    // setLoading(true)
 
     try {
-      console.log("znowu przeladowalo")
       const res = await axios.get(`${DB_PATH}/projects.json`)
       const newProject = []
       for (const key in res.data) {
         newProject.push({...res.data[key], id: key})
       }
       setData(newProject.reverse())
-      setLoading(false)
+      // setLoading(false)
 
     } catch (ex) {
       console.log(ex.response)

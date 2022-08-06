@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useState, useContext, useEffect } from "react";
 import AuthContext from "../../context/authContext";
 import { storage } from "../../../firebase";
-import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
 import axios from "axios";
 import Input from "../../input/Input";
@@ -38,7 +38,8 @@ const AddProject = () => {
   const [valid, setValid] = useState({
     title: [true, ""],
     description: [true, ""],
-    link: [true, ""]
+    link: [true, ""],
+    pictures: [true, ""]
   })
 
   const submitHandler = async (e) => {
@@ -60,9 +61,10 @@ const AddProject = () => {
     } else if (project.link.length === 0) {
       setValid({...valid, link: [false, "Testowy msg"]})
     } else if (project.big.length === 0) {
+      setValid({...valid, pictures: [false, "There needs to be atleast 1 picture"]})
       console.log("Project needs some pictures");
     } else {
-
+      setLoading(true)
       await axios.post(`${DB_PATH}/projects.json`, {type: project.type, title: project.title, link: project.link, thumbnail: project.thumbnail});
       navigate("/");
 
@@ -80,6 +82,7 @@ const AddProject = () => {
       } else if (project.description.length === 0) {
         setValid({...valid, description: [false, "Testowy msg"]})
       } else if (project.big.length === 0) {
+        setValid({...valid, pictures: [false, "There needs to be atleast 1 picture"]})
         console.log("Project needs some pictures");
       } else {
         setLoading(true)
@@ -122,10 +125,11 @@ const AddProject = () => {
 
   const fileInputHandler = async (file) => {
     if (file.size > 2097152 / 2) {
-      alert("file to big (maximum allowed size = 2mb");
+      setValid({...valid, pictures: [false, "File too big. Maximum file size is 1mb"]})
     } else if (imageList.length >= 1 && project.type !== "Project") {
-      console.log("cannot upload multiple files");
+      setValid({...valid, pictures: [false, "Can't upload multiple Thumbnails"]})
     } else {
+      setLoading(true)
       setImageUpload(file);
     }
   };
@@ -145,7 +149,9 @@ const AddProject = () => {
     const imageRef = ref(storage, `images/${imageUpload.name + v4()}`);
     uploadBytes(imageRef, imageUpload).then((snapshot) => {
       getDownloadURL(snapshot.ref).then((url) => {
-        setImageList((prev) => [...prev, url]);
+        setImageList((prev) => [...prev, [url, imageRef.name]]);
+        setValid({...valid, pictures: [true, ""]})
+        setLoading(false)
       });
     });
   };
@@ -154,6 +160,15 @@ const AddProject = () => {
     setProject({ ...project, [description]: value });
     setValid({...valid, [description]: [true, ""]})
   };
+
+  const onPicClick = async (e) => {
+    const fileNameInStorage = e.target.id 
+    const imageRef = ref(storage, `images/${fileNameInStorage}`);
+    deleteObject(imageRef)
+    const newImageList = imageList.filter((x)=>{ return x[1] !== fileNameInStorage} )
+    setImageList(newImageList)
+
+  }
 
   return (
     <AnimatePresence>
@@ -201,13 +216,15 @@ const AddProject = () => {
               <div className={classes.miniPicGrid}>
                 {imageList.map((url) => {
                   return (
-                    <img src={url} className={classes.miniPic} alt="" key={url} />
+                    <img src={url[0]} id={url[1]} className={classes.miniPic} alt="" key={url[1]} onClick={onPicClick}/>
                   );
                 })}
                 <Input
                   type="file"
                   id="File"
                   onChange={(file) => fileInputHandler(file)}
+                  valid={valid.pictures}
+                  loading={loading}
                 >
                   Add picture
                 </Input>
@@ -228,13 +245,15 @@ const AddProject = () => {
               </Input>
               <label className={classes.label}>Thumbnail</label>
               <div className={classes.miniPicGrid}>
-              {imageList[0] ? <img src={imageList[0]} className={classes.miniPic} alt="" key={imageList[0]} /> : null }    
+              {imageList[0] ? <img src={imageList[0][0]} className={classes.miniPic} alt="" key={imageList[0][0]} /> : null }    
               
                            
               <Input
                   type="file"
                   id="File"
                   onChange={(file) => fileInputHandler(file)}
+                  valid={valid.pictures}
+                  loading={loading}
                 >
                   Add picture
                   </Input>
