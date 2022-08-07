@@ -1,15 +1,17 @@
 import classes from "./EditProjects.module.css"
 import { motion, AnimatePresence } from "framer-motion";
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authContext";
 import ProjectBar from "./ProjectBar/ProjectBar";
 import DataContext from "../../context/dataContext";
+import { getDatabase, ref, onValue, remove} from "firebase/database";
 
 const EditProjects = () => {
 
     const navigate = useNavigate();
     const auth = useContext(AuthContext);
+    const [loading, setLoading] = useState(false)
 
     const dataContext = useContext(DataContext)
 
@@ -18,6 +20,16 @@ const EditProjects = () => {
           navigate("/");
         }
       }, [auth.isAuthenticated, navigate]);
+
+    const deleteProject = async (id)=> {
+        setLoading(true)
+        const db = getDatabase();
+
+        const itemToDelete = ref(db, 'projects/' + id);
+        await remove(itemToDelete)
+        dataContext.fetchProjects()
+        setLoading(false)
+    }
 
     return (
         <AnimatePresence>
@@ -32,7 +44,7 @@ const EditProjects = () => {
 
             <div className={classes.container}>
             {dataContext.projects.map((project) => (
-             <ProjectBar key={project.id} {...project} />
+             <ProjectBar key={project.id} {...project} onDelete={deleteProject} loading={loading}/>
         ))}
 
             </div>

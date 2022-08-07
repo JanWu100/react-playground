@@ -11,7 +11,22 @@ const ProjectBar = (props) => {
             <div className={classes.projectBarBlock}>
                  <p className={classes.projectBarText}>{props.type}</p>
             </div>
-        <button className={classes.button}>Delete</button>
+        <button 
+            disabled={props.loading ? true : false}
+            className={`${classes.button} ${props.loading ? classes.disabled : null}`} 
+            onClick={()=>{props.onDelete(props.id)}
+            
+            }>
+            {props.loading ? (
+                        <>
+                        <span
+                            className={`spinner-border ${classes.spinner}`}
+                            role="status"
+                            aria-hidden="true"
+                        ></span>
+                       
+                        </>
+                        ) : "Delete" }</button>
     </div>
     )
 }

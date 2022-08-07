@@ -99,7 +99,6 @@ const AddProject = () => {
      
   
         if(currentTitles.includes(stringToUrlFriendly(project.title))) {
-          console.log("Title already in use");
           setValid({...valid, title: [false, "Title used"]})
           setLoading(false)
           return;
