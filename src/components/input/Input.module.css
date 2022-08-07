@@ -84,3 +84,8 @@
   color: #989898;
 }
 
+.disabled {
+  opacity: .6;
+  pointer-events: none;
+}
+

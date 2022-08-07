@@ -17,9 +17,9 @@ import axios from "axios";
 import EditProjects from "./components/pages/EditProjects/EditProjects";
 
 function App() {
-  // const [loading, setLoading] = useState(false)
   const [userLogged, setUserLogged ] = useState(false)
   const [data,setData] = useState([])
+  const [loading, setLoading] = useState(false)
 
   const [showContact, setShowContact] = useState(null)
   const onContactHandler =()=> {
@@ -36,7 +36,7 @@ function App() {
   },[])
 
   const fetchData = async () => {
-    // setLoading(true)
+    setLoading(true)
 
     try {
       const res = await axios.get(`${DB_PATH}/projects.json`)
@@ -45,15 +45,23 @@ function App() {
         newProject.push({...res.data[key], id: key})
       }
       setData(newProject.reverse())
-      // setLoading(false)
-      console.log(data)
+      setLoading(false)
 
     } catch (ex) {
       console.log(ex.response)
     }
   }
-  
 
+  const loader = (
+      <div className="spinnerContainer">
+          <span
+            className={`spinner-border spinner`}
+            role="status"
+            aria-hidden="true"
+          ></span>
+      </div>
+    )
+  
   const navbar = <Navbar onContact={onContactHandler}/>;
   const content = (
     <Routes>
@@ -89,8 +97,6 @@ function App() {
                   {navbar}
                   <AddProject />
                   </>
-
-      
       )} />
 
       <Route path="editprojects" element={(<>
@@ -119,7 +125,8 @@ function App() {
             fetchProjects: ()=>{fetchData()}}
           }>
             <Layout 
-            content={content} 
+            navbar={loading ? navbar : null}
+            content={loading ? loader : content} 
             contact={showContact !== null ? contact : null}
             footer={footer} />
         </DataContext.Provider>
@@ -127,5 +134,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;

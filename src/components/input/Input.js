@@ -64,13 +64,16 @@ const InputFile = (props) => {
       <label className={` 
                           ${classes.label} 
                           ${classes.addPic} 
-                          ${!props.valid[0] ? classes.invalidPic : null}`}>
+                          ${!props.valid[0] ? classes.invalidPic : null}
+                          ${props.loading ? classes.disabled : null}`
+                          }>
         <input
           type="file"
           id={props.id}
           onChange={(e) => props.onChange(e.target.files[0])}
           accept="image/*"
-          className={classes.fileInput}
+          className={`${classes.fileInput}`}
+          disabled={props.loading ? true : false}
         ></input>
         {props.loading ? 
         (<div className={classes.spinnerContainer}>

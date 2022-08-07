@@ -20,3 +20,16 @@
 ::-webkit-scrollbar-thumb:hover {
   background: #7f7f7b;
 }
+
+.spinnerContainer {
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.spinner {
+  width: 5rem;
+  height: 5rem;
+  border-width: .4rem
+}
