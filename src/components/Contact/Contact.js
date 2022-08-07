@@ -7,9 +7,7 @@ const Contact = (props) => {
   const { width } = useWindowDimensions();
 
   useEffect(() => {
-    setTimeout(() => {
       contactRef.current.className = `${classes.main} ${classes.mainActive}`;
-    }, 0);
   }, []);
 
   const onClickHandler = (e) => {
