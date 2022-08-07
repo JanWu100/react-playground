@@ -14,7 +14,7 @@ const ProjectBar = (props) => {
         <button 
             disabled={props.loading ? true : false}
             className={`${classes.button} ${props.loading ? classes.disabled : null}`} 
-            onClick={()=>{props.onDelete(props.id)}
+            onClick={()=>{props.onDelete(props.id, props.big)}
             
             }>
             {props.loading ? (

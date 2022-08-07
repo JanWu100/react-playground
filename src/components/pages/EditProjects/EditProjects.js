@@ -6,6 +6,8 @@ import AuthContext from "../../context/authContext";
 import ProjectBar from "./ProjectBar/ProjectBar";
 import DataContext from "../../context/dataContext";
 import { getDatabase, ref, onValue, remove} from "firebase/database";
+import {ref as ref_storage, deleteObject } from "firebase/storage";
+import {storage } from "../../../firebase"
 
 const EditProjects = () => {
 
@@ -21,15 +23,30 @@ const EditProjects = () => {
         }
       }, [auth.isAuthenticated, navigate]);
 
-    const deleteProject = async (id)=> {
-        setLoading(true)
-        const db = getDatabase();
 
+    const onDeleteHandler = async (id,pictures) => {
+        setLoading(true)
+        await deleteProject(id)
+        await deletePicturesFromStorage(pictures)
+        setLoading(false)
+    }
+
+    const deleteProject = async (id)=> {
+        const db = getDatabase();
         const itemToDelete = ref(db, 'projects/' + id);
         await remove(itemToDelete)
         dataContext.fetchProjects()
-        setLoading(false)
+
     }
+
+    const deletePicturesFromStorage = async (pictures) => {
+        pictures.forEach(picture => {
+            const fileName = picture[1]
+            const imageRef = ref_storage(storage, `images/${fileName}`);
+            deleteObject(imageRef)
+        })
+    }
+
 
     return (
         <AnimatePresence>
@@ -41,19 +58,14 @@ const EditProjects = () => {
             className={classes.loginContainer}
           >
             <h4 className={classes.headerText}>Edit Projects</h4>
-
             <div className={classes.container}>
-            {dataContext.projects.map((project) => (
-             <ProjectBar key={project.id} {...project} onDelete={deleteProject} loading={loading}/>
-        ))}
-
+                {dataContext.projects.map((project) => (
+                <ProjectBar key={project.id} {...project} onDelete={onDeleteHandler} loading={loading}/>
+                ))}
             </div>
-   
-           
           </motion.section>
         </AnimatePresence>
-      );
-    
+      );  
 }
 
 export default EditProjects
