@@ -1,88 +1,103 @@
 .main {
-    background: #d9d7cf;
-    width: 292px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    transform: translateX(120%);
-    opacity: 0;
-    height: 700px;
-    z-index: 2;
-    transition: transform .3s, opacity .3s;
+  background: #d9d7cf;
+  width: 292px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translateX(120%);
+  opacity: 0;
+  height: 700px;
+  z-index: 2;
+  transition: transform 0.3s, opacity 0.3s;
+}
+.mainActive {
+  transform: translateX(0);
+  opacity: 1;
+}
+.container {
+  top: 0%;
+  left: 0%;
+  right: 0%;
+  bottom: 0%;
+  position: fixed;
+  z-index: 1;
+}
+.menuItem {
+  font-size: 1.8rem;
+  padding-top: 2.5rem;
+  padding-left: 1.5rem;
+}
+.menuLink {
+  color: #000;
+  text-decoration: none;
+}
+
+.link {
+  color: #000;
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+.body {
+  padding: 60px 1.5rem 0;
+  font-size: 1.8rem;
+  line-height: 3.7rem;
+}
+.backdrop {
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.459);
+}
+
+.contactButton {
+  background: none;
+  border: none;
+  outline: none;
+  color: #000000;
+  text-decoration: none;
+  font-size: 1.8rem;
+  padding: 0;
+  cursor: pointer;
+}
+.contactContainer {
+  display: flex;
+  justify-content: end;
+  padding-right: 2rem;
+}
+
+@media (min-width: 580px) {
+}
+
+@media (min-width: 768px) {
+  .contactContainer {
+    padding-right: 0;
   }
-  .mainActive {
-    transform: translateX(0);
-    opacity: 1;
-  }
+
   .container {
-    top: 0%;
-    left: 0%;
-    right: 0%;
-    bottom: 0%;
+    margin-inline: auto;
     position: fixed;
-    z-index: 1;
+    width: calc(100% - 11.2rem);
+    max-width: calc(1270px - 11.2rem);
+    height: 100%;
+  }
+  .main {
+    width: calc(33% + 2px);
+    height: 140vh;
+    position: absolute;
+    transition: transform 0s, opacity 0s;
   }
   .menuItem {
-      font-size: 1.8rem;
-      padding-top: 2.5rem;
-      padding-left: 1.5rem;
-  
-  }
-  .menuLink {
-      color: #000;
-      text-decoration: none;
-  }
-  
-  .link {
-      color: #000;
-  }
-  
-  .underline {
-      text-decoration: underline;
-  }
-  
-  .body {
-      padding: 60px 1.5rem 0;
-      font-size: 1.8rem;
-      line-height: 3.7rem;
+    text-align: right;
   }
   .backdrop {
-      width: 100%;
-      height: 100%;
-      background: rgba(0, 0, 0, 0.459);
+    background-color: transparent;
   }
-  
-  @media (min-width: 580px) {
+}
+
+@media (min-width: 1024px) {
+  .main {
+    width: calc(25%);
   }
-  
-  @media (min-width: 768px) {
-    .container {
-      margin-inline: auto;
-      position: fixed;
-      width: calc(100% - 11.2rem);
-      max-width: calc(1270px - 11.2rem);
-      height: 100%;
-    }
-    .main {
-      width: calc(33% + 2px);
-      height: 140vh;
-      position: absolute;
-      transition: transform 0s, opacity 0s;
-  
-    }
-    .menuItem {
-      text-align: right;
-  }
-  .backdrop {
-      background-color: transparent;
-      
-  }
-  }
-  
-  @media (min-width: 1024px) {
-    .main {
-      width: calc(25%);
-    }
-  }
-  
-  
+}

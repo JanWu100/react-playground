@@ -30,15 +30,18 @@ const Contact = (props) => {
         }
      
       <div className={classes.main} ref={contactRef}>
-        {width > 768 ? (
-                        <a href="#" className={classes.menuLink}>
-                        <p className={classes.menuItem}>Contact</p>
-                        </a>
-                        ) : (
-                            <a href="#" onClick={onClickHandler} className={classes.menuLink}>
+        <div className={classes.contactContainer}>
+          {width > 768 ? (
+                          <button className={classes.contactButton}>
+                          <p className={classes.menuItem}>Contact</p>
+                          </button>
+                        
+                          ) : (
+                            <button onClick={onClickHandler} className={classes.contactButton}>
                             <p className={classes.menuItem}>Contact</p>
-                            </a>
-                            )}
+                            </button>
+                          )}
+        </div>
         
 
         <div className={classes.body}>
