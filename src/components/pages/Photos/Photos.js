@@ -37,8 +37,9 @@ const Photos = () => {
           {photos.map((photo) => (
             <img
               className={classes.photo}
-              key={Math.random()}
-              src={photo}
+              key={photo[1]}
+              src={photo[0]}
+              id={photo[1]}
               alt=""
             ></img>
           ))}

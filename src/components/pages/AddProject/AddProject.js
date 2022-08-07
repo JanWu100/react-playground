@@ -84,7 +84,6 @@ const AddProject = () => {
         setValid({...valid, description: [false, "Testowy msg"]})
       } else if (project.big.length === 0) {
         setValid({...valid, pictures: [false, "There needs to be atleast 1 picture"]})
-        console.log("Project needs some pictures");
       } else {
         setLoading(true)
         
@@ -109,9 +108,7 @@ const AddProject = () => {
         navigate("/");
         
       }
-
-    
-    
+  
   }
 
   useEffect(() => {
@@ -245,23 +242,27 @@ const AddProject = () => {
               </Input>
               <label className={classes.label}>Thumbnail</label>
               <div className={classes.miniPicGrid}>
-              {imageList[0] ? <img src={imageList[0][0]} className={classes.miniPic} alt="" key={imageList[0][0]} /> : null }    
-              
-                           
-              <Input
+              {imageList[0] ? 
+                <img src={imageList[0][0]} id={imageList[0][1]} className={classes.miniPic} alt="" key={imageList[0][0]} onClick={onPicClick}/> 
+                :
+                (
+                  <Input
                   type="file"
                   id="File"
                   onChange={(file) => fileInputHandler(file)}
                   valid={valid.pictures}
                   loading={loading}
-                >
-                  Add picture
+                  >
+                  Add thumbnail
                   </Input>
+                ) }    
+              
+
               </div>
             </>
           )      
           }
-          <Button type="submit" label="Add Project" loading={loading}/>
+          <Button type="submit" label={`Add ${project.type}`} loading={loading}/>
         </form>
       </motion.section>
     </AnimatePresence>

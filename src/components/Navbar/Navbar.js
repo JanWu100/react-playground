@@ -3,15 +3,15 @@ import arrow from "../../assets/arrow.svg";
 import { Link, useParams, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
-import { useContext, useState} from "react";
-import AuthContext from "../context/authContext";
+import { useState} from "react";
 import Dropdown from "./Dropdown/Dropdown";
+import useAuth from "../hooks/useAuth";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
   const params = useParams()
-  const auth = useContext(AuthContext)
   const navigate = useNavigate()
+  const [auth, setAuth] = useAuth()
 
   const [controlVisible, setControlVisible] = useState(false)
 
@@ -38,7 +38,7 @@ const Navbar = (props) => {
 
       <ul className={classes.list}>
         <li className={`${classes.listItem} ${classes.control}`}>
-          {auth.isAuthenticated === false ? 
+          {!auth ? 
             <Link to="/login" className={classes.link}>Login</Link> 
             : 
             <button className={classes.contactButton} onClick={controlHandler}>Control</button>}

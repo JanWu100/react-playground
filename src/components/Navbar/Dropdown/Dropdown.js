@@ -1,14 +1,13 @@
 import classes from "./Dropdown.module.css";
-import { useContext} from "react";
+import useAuth from "../../hooks/useAuth";
 import { useNavigate, Link } from "react-router-dom";
-import AuthContext from "../../context/authContext";
 
 const Dropdown = (props) => {
+  const [auth, setAuth] = useAuth()
     const navigate = useNavigate()
-    const auth = useContext(AuthContext)
     const logoutHandler = () => {
         props.closeDropdown()
-        auth.logout()
+        setAuth(false)
         navigate("/")
       }
 

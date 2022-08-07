@@ -1,7 +1,7 @@
 import classes from "./Project.module.css";
 import { useParams, useLocation } from "react-router-dom";
 import ContactBar from "../../Footer/ContactBar";
-import { Link } from "react-router-dom";
+import {HashLink as Link} from "react-router-hash-link"
 import { motion } from "framer-motion";
 import { useEffect , useContext} from "react";
 import { stringToUrlFriendly } from "../../../helpers/formatUrl";
@@ -35,7 +35,7 @@ const Project = () => {
         <p className={classes.description}>{currentItem.description}</p>
         <div className={classes.picturesGrid}>
           {currentItem.big.map((image) => (
-            <Link to={`/${params.title}/photos`} key={image}>
+            <Link to={{pathname: `photos`, hash: image[1]}} key={image}>
               <img className={classes.picture} src={image} alt=""></img>
             </Link>
           ))}

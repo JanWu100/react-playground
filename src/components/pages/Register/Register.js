@@ -1,14 +1,14 @@
-import classes from "./Login.module.css";
+import classes from "./Register.module.css";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Button from "../../Button/Button";
 import Input from "../../input/Input";
-import useAuth from "../../hooks/useAuth";
 import axios from "axios";
+import useAuth from "../../hooks/useAuth";
 
-const Login = () => {
-    const [auth, setAuth] = useAuth();
+const Register = () => {
+    const [auth, setAuth] = useAuth()
     const [user, setUser] = useState({
       email: "",
       password: ""
@@ -17,7 +17,7 @@ const Login = () => {
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
 
-    const authURL = "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key="
+    const authURL = "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="
     const apiKey = process.env.REACT_APP_API_KEY
 
     const submitHandler = async (e) => {
@@ -30,22 +30,26 @@ const Login = () => {
                 password: user.password,
                 returnSecureToken: true
             })
-
             setAuth(true, {
-              email: res.data.email,
-              token: res.data.idToken,
-              userId: res.data.localId
+                email: res.data.email,
+                token: res.data.idToken,
+                userId: res.data.localId
             })
+
             
         } catch (ex) {
             setLoading(false)
-            if (ex.response.data.error.message === "INVALID_PASSWORD") {
-                setValid({...valid, password: [false, "Invalid password"]})
+            if (ex.response.data.error.message === "WEAK_PASSWORD : Password should be at least 6 characters") {
+                setValid({...valid, password: [false, "Too weak password"]})
             }
-            if (ex.response.data.error.message === "EMAIL_NOT_FOUND") {
-                setValid({...valid, email: [false, "Email not found"]})
+            if (ex.response.data.error.message === "EMAIL_EXISTS") {
+                setValid({...valid, email: [false, "Email already exists"]})
             }
+            console.log(ex.response.data)
+            
+            
         }
+
     }
 
     const [valid, setValid] = useState({
@@ -57,11 +61,10 @@ const Login = () => {
       setUser({ ...user, [description]: value });
       setValid({...valid, [description]: [true, ""]})
     };
-
-  if (auth) {
-    navigate("/")
-  }
     
+    if (auth) {
+        navigate("/")
+    }
 
   return (
     <AnimatePresence>
@@ -70,9 +73,9 @@ const Login = () => {
         animate={{ x: 0, opacity: 1 }}
         exit={{ x: 300, opacity: 0 }}
         transition={{ duration: .2 }}
-        className={classes.loginContainer}
+        className={classes.registerContainer}
       >
-        <h4 className={classes.headerText}>Login</h4>
+        <h4 className={classes.headerText}>Register</h4>
         <form onSubmit={submitHandler}>
               <Input
                 value={user.email}
@@ -94,15 +97,12 @@ const Login = () => {
                 Password
               </Input>
 
-            <Button type="submit" label="Login" loading={loading} />
+            <Button type="submit" label="Register" loading={loading} />
         </form>
-        <p className={classes.bodyText}>Not a member?  
-            <Link to="/register" className={classes.register}>Register</Link>
-        </p>
        
       </motion.section>
     </AnimatePresence>
   );
 };
 
-export default Login;
+export default Register;

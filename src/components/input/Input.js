@@ -117,7 +117,7 @@ const InputPassword = (props) => {
         onChange={(e) => props.onChange(e.target.value)}
         className={`${classes.input} ${classes.textInput} ${!props.valid[0] ? classes.invalid : null}`}
       ></input>
-      <ErrorMessage {...props} type="file">{props.valid[1]}</ErrorMessage>
+      <ErrorMessage {...props}>{props.valid[1]}</ErrorMessage>
     </>
   );
 };

@@ -15,6 +15,7 @@ import DataContext from "./components/context/dataContext";
 import AddProject from "./components/pages/AddProject/AddProject";
 import axios from "axios";
 import EditProjects from "./components/pages/EditProjects/EditProjects";
+import Register from "./components/pages/Register/Register";
 
 function App() {
   const [userLogged, setUserLogged ] = useState(false)
@@ -22,6 +23,7 @@ function App() {
   const [loading, setLoading] = useState(false)
 
   const [showContact, setShowContact] = useState(null)
+
   const onContactHandler =()=> {
     setShowContact(true)
   }
@@ -90,6 +92,12 @@ function App() {
       <Route path="login" element={(<>
                   {navbar}
                   <Login />
+                  </>
+      )} />
+      
+      <Route path="register" element={(<>
+                  {navbar}
+                  <Register />
                   </>
       )} />
 
