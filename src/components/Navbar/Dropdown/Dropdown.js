@@ -1,6 +1,6 @@
 import classes from "./Dropdown.module.css";
 import { useContext} from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../../context/authContext";
 
 const Dropdown = (props) => {
@@ -17,7 +17,7 @@ const Dropdown = (props) => {
       <div className={classes.dropdown}>
         <ul className={classes.list}>
           <li className={`${classes.listItem} ${classes.control}`}>
-            <button className={classes.contactButton}>Edit Projects</button>
+          <Link to="/editprojects" className={classes.contactButton}>Edit Projects</Link> 
           </li>
           <li className={`${classes.listItem} ${classes.control}`}>
             <button className={classes.contactButton} onClick={logoutHandler}>Logout</button>

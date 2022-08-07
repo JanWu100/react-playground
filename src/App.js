@@ -14,6 +14,7 @@ import AuthContext from "./components/context/authContext";
 import DataContext from "./components/context/dataContext";
 import AddProject from "./components/pages/AddProject/AddProject";
 import axios from "axios";
+import EditProjects from "./components/pages/EditProjects/EditProjects";
 
 function App() {
   // const [loading, setLoading] = useState(false)
@@ -45,6 +46,7 @@ function App() {
       }
       setData(newProject.reverse())
       // setLoading(false)
+      console.log(data)
 
     } catch (ex) {
       console.log(ex.response)
@@ -74,8 +76,8 @@ function App() {
       <Route path="about" element={(<>
                   {navbar}
                   <About />
-                  </>
-      )} />
+                  </>      )} />
+
 
       <Route path="login" element={(<>
                   {navbar}
@@ -86,6 +88,14 @@ function App() {
       <Route path="addproject" element={(<>
                   {navbar}
                   <AddProject />
+                  </>
+
+      
+      )} />
+
+      <Route path="editprojects" element={(<>
+                  {navbar}
+                  <EditProjects />
                   </>
       )} />
 

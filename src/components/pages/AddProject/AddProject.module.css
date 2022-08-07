@@ -47,6 +47,7 @@ form {
   cursor: pointer;
 }
 
+
 @media (min-width: 500px) {
   .grid {
     grid-template-columns: 1fr 1fr;

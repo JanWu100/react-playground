@@ -1,0 +1,36 @@
+.projectBar {
+  display: grid;
+  grid-template-columns: 60px 1fr 1fr 0.5fr;
+  gap: 2rem;
+  border: 1px solid black;
+  padding: 1rem;
+}
+.projectBarText {
+  font-size: 1.5rem;
+}
+
+.projectBarBlock {
+  display: flex;
+  align-items: center;
+}
+.thumbnail {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.button {
+  background: none;
+  color: #000;
+  border: 1px solid #000000;
+  font-size: 1.7rem;
+  padding: 1rem 2.5rem;
+}
+.button:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 500px) {
+}
+@media (min-width: 768px) {
+}
