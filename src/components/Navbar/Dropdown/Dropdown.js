@@ -20,6 +20,9 @@ const Dropdown = (props) => {
           <Link to="/editprojects" className={classes.contactButton}>Edit Projects</Link> 
           </li>
           <li className={`${classes.listItem} ${classes.control}`}>
+          <Link to="/addproject" className={classes.contactButton}>Add Project</Link> 
+          </li>
+          <li className={`${classes.listItem} ${classes.control}`}>
             <button className={classes.contactButton} onClick={logoutHandler}>Logout</button>
           </li>
         </ul>

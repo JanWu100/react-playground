@@ -66,6 +66,7 @@ const AddProject = () => {
     } else {
       setLoading(true)
       await axios.post(`${DB_PATH}/projects.json`, {type: project.type, title: project.title, link: project.link, thumbnail: project.thumbnail});
+      dataContext.fetchProjects() 
       navigate("/");
 
     }
