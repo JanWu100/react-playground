@@ -36,6 +36,7 @@ function App() {
   }
 
   const DB_PATH = process.env.REACT_APP_DB_PATH
+  const adminID = process.env.REACT_APP_ADMIN_ID
 
   useEffect(()=>{
     fetchData()
@@ -45,15 +46,19 @@ function App() {
     setLoading(true)
 
     try {
-      const main = await axios.get(`${DB_PATH}/projects/GmPva0Bj4YYOSgEL70XBQzO43Fq2.json`)
-      const res = await axios.get(`${DB_PATH}/projects/${user && user.userId !== "GmPva0Bj4YYOSgEL70XBQzO43Fq2" ? user.userId : null}.json`)
+      const main = await axios.get(`${DB_PATH}/projects/${adminID}.json`)
       const newProject = []
       for (const key in main.data) {
         newProject.push({...main.data[key], id: key})
       }
-      for (const key in res.data) {
-        newProject.push({...res.data[key], id: key})
+
+      if( user && user.userId !== adminID){
+        const res = await axios.get(`${DB_PATH}/projects/${user.userId}.json`)
+        for (const key in res.data) {
+          newProject.push({...res.data[key], id: key})
+        }
       }
+
       setData(newProject.reverse())
       setLoading(false)
 

@@ -53,7 +53,6 @@ const AddProject = () => {
       addAwardOrArticleToDatabase()
     }
   };
-
   const DB_PATH = process.env.REACT_APP_DB_PATH;
 
   const addAwardOrArticleToDatabase = async () => {

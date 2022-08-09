@@ -45,11 +45,10 @@ const Contact = (props) => {
         
 
         <div className={classes.body}>
-          <p>Loremska 40a/15</p>
-          <p>61-999 Poznan, Poland</p>
-          <p className={classes.underline}>mail@example.com</p>
-          <p className={classes.underline}>+48 100200300</p>
-          <p className={classes.underline}>facebook instagram</p>
+          <p className={classes.label}>email</p>
+          <p className={classes.link}><a href = "mailto: wagrowskij@gmail.com">wagrowskij@gmail.com</a></p>
+          <p className={classes.label}>This project on github:</p>
+          <p className={classes.link}><a href="https://github.com/JanWu100/react-playground" target="blank">github</a></p>
         </div>
       </div>
     </div>

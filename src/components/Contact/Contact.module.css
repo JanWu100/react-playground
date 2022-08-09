@@ -15,6 +15,10 @@
   transform: translateX(0);
   opacity: 1;
 }
+.label {
+  font-size: 1.3rem;
+  line-height: 1;
+}
 .container {
   top: 0%;
   left: 0%;
@@ -28,21 +32,14 @@
   padding-top: 2.5rem;
   padding-left: 1.5rem;
 }
-.menuLink {
-  color: #000;
-  text-decoration: none;
-}
 
 .link {
-  color: #000;
-}
-
-.underline {
   text-decoration: underline;
+  margin-bottom: 2rem;
 }
 
 .body {
-  padding: 60px 2.5rem 0;
+  padding: 76px 2.5rem 0;
   font-size: 1.8rem;
   line-height: 3.7rem;
 }
