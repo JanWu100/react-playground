@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, {useEffect, useState, useContext } from "react";
 import "./App.css";
 import Layout from "./components/Layout/Layout";
 import Navbar from "./components/Navbar/Navbar";
@@ -21,8 +21,12 @@ function App() {
   const [userLogged, setUserLogged ] = useState(false)
   const [data,setData] = useState([])
   const [loading, setLoading] = useState(false)
+  const [user, setUser] = useState(null)
 
   const [showContact, setShowContact] = useState(null)
+
+  const authContext = useContext(AuthContext)
+
 
   const onContactHandler =()=> {
     setShowContact(true)
@@ -35,14 +39,18 @@ function App() {
 
   useEffect(()=>{
     fetchData()
-  },[])
+  },[user])
 
   const fetchData = async () => {
     setLoading(true)
 
     try {
-      const res = await axios.get(`${DB_PATH}/projects.json`)
+      const main = await axios.get(`${DB_PATH}/projects/GmPva0Bj4YYOSgEL70XBQzO43Fq2.json`)
+      const res = await axios.get(`${DB_PATH}/projects/${user && user.userId !== "GmPva0Bj4YYOSgEL70XBQzO43Fq2" ? user.userId : null}.json`)
       const newProject = []
+      for (const key in main.data) {
+        newProject.push({...main.data[key], id: key})
+      }
       for (const key in res.data) {
         newProject.push({...res.data[key], id: key})
       }
@@ -123,8 +131,11 @@ function App() {
       <AuthContext.Provider
         value={{
           isAuthenticated: userLogged,
-          login: ()=>{setUserLogged(true)},
-          logout: ()=>{setUserLogged(false)}
+          user: user,
+          login: (user)=>{setUserLogged(true)
+                        setUser(user)},
+          logout: ()=>{setUserLogged(false)
+                        setUser(null)}
         }}>
         <DataContext.Provider
           value={{

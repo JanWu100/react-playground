@@ -3,15 +3,16 @@ import arrow from "../../assets/arrow.svg";
 import { Link, useParams, useNavigate} from "react-router-dom";
 import classes from "./Navbar.module.css";
 import useWindowDimensions from "../hooks/getWindowsDimensions";
-import { useState} from "react";
+import { useState, useContext} from "react";
 import Dropdown from "./Dropdown/Dropdown";
 import useAuth from "../hooks/useAuth";
+import AuthContext from "../context/authContext";
 
 const Navbar = (props) => {
   const { width } = useWindowDimensions();
   const params = useParams()
   const navigate = useNavigate()
-  const [auth, setAuth] = useAuth()
+  const [auth] = useAuth()
 
   const [controlVisible, setControlVisible] = useState(false)
 
@@ -49,8 +50,6 @@ const Navbar = (props) => {
         </li>
         <li className={classes.listItem}>
         {window.location.pathname === "/about" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/about" className={classes.link}>About</Link>}
-          
-          
         </li>
         <li className={classes.listItem}>
           {width >= 768 ?  

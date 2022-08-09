@@ -14,6 +14,11 @@ const Login = () => {
       password: ""
     })
 
+    const [valid, setValid] = useState({
+      email: [true, ""],
+      password: [true, ""]
+    })
+
     const navigate = useNavigate()
     const [loading, setLoading] = useState(false)
 
@@ -22,7 +27,14 @@ const Login = () => {
 
     const submitHandler = async (e) => {
         e.preventDefault()
-        setLoading(true)
+        if (user.email.length + user.password.length === 0) {
+          setValid({...valid, email: [false, "Fill in email"], password: [false, "Fill in password"]})
+        } else if (user.email.length === 0) {
+          setValid({...valid, email: [false, "Fill in email"]})
+        } else if (user.password.length === 0) {
+          setValid({...valid, password: [false, "Fill in"]})
+        } else {
+          setLoading(true)
 
         try {
             const res = await axios.post(authURL + apiKey, {
@@ -47,11 +59,8 @@ const Login = () => {
             }
         }
     }
+  }
 
-    const [valid, setValid] = useState({
-      email: [true, ""],
-      password: [true, ""],
-    })
 
     const inputChangeHandler = (value, description) => {
       setUser({ ...user, [description]: value });

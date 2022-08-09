@@ -1,5 +1,6 @@
 .main {
   background: #d9d7cf;
+  border-left: 1px solid #cbc9c1;
   width: 292px;
   position: absolute;
   top: 0;
@@ -41,7 +42,7 @@
 }
 
 .body {
-  padding: 60px 1.5rem 0;
+  padding: 60px 2.5rem 0;
   font-size: 1.8rem;
   line-height: 3.7rem;
 }

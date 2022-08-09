@@ -3,7 +3,7 @@ import { useParams, useLocation } from "react-router-dom";
 import ContactBar from "../../Footer/ContactBar";
 import {HashLink as Link} from "react-router-hash-link"
 import { motion } from "framer-motion";
-import { useEffect , useContext} from "react";
+import { useContext} from "react";
 import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 import DataContext from "../../context/dataContext";
 

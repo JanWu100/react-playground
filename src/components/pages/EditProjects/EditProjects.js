@@ -5,23 +5,21 @@ import { useNavigate } from "react-router-dom";
 import AuthContext from "../../context/authContext";
 import ProjectBar from "./ProjectBar/ProjectBar";
 import DataContext from "../../context/dataContext";
-import { getDatabase, ref, onValue, remove} from "firebase/database";
+// import { getDatabase, ref, onValue, remove} from "firebase/database";
 import {ref as ref_storage, deleteObject } from "firebase/storage";
 import {storage } from "../../../firebase"
+import useAuth from "../../hooks/useAuth";
+import axios from "axios";
 
 const EditProjects = () => {
 
     const navigate = useNavigate();
-    const auth = useContext(AuthContext);
+    const [auth] = useAuth()
+    const authContext = useContext(AuthContext)
     const [loading, setLoading] = useState(false)
 
     const dataContext = useContext(DataContext)
-
-    useEffect(() => {
-        if (auth.isAuthenticated === false) {
-          navigate("/");
-        }
-      }, [auth.isAuthenticated, navigate]);
+    const userData = dataContext.projects.filter((x) => x.createdBy === authContext.user.userId)
 
 
     const onDeleteHandler = async (id,pictures) => {
@@ -32,11 +30,12 @@ const EditProjects = () => {
     }
 
     const deleteProject = async (id)=> {
-        const db = getDatabase();
-        const itemToDelete = ref(db, 'projects/' + id);
-        await remove(itemToDelete)
+        // const db = getDatabase();
+        // const itemToDelete = ref(db, `projects/${authContext.user.userId}` + id);
+        // await remove(itemToDelete)
+        const DB_PATH = process.env.REACT_APP_DB_PATH
+        await axios.delete(`${DB_PATH}/projects/${authContext.user.userId}/${id}.json?auth=${authContext.user.token}`)
         dataContext.fetchProjects()
-
     }
 
     const deletePicturesFromStorage = async (pictures) => {
@@ -47,6 +46,9 @@ const EditProjects = () => {
         })
     }
 
+    if (!auth) {
+      navigate("/")
+    }
 
     return (
         <AnimatePresence>
@@ -59,7 +61,7 @@ const EditProjects = () => {
           >
             <h4 className={classes.headerText}>Edit Projects</h4>
             <div className={classes.container}>
-                {dataContext.projects.map((project) => (
+                {userData.map((project) => (
                 <ProjectBar key={project.id} {...project} onDelete={onDeleteHandler} loading={loading}/>
                 ))}
             </div>

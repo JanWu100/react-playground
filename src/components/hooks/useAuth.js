@@ -7,7 +7,7 @@ const useAuth = () => {
     const auth = authContext.isAuthenticated
     const setAuth = (isAuthenticated, tokenData = null) => {
         if (isAuthenticated) {
-            authContext.login()
+            authContext.login(tokenData)
 
             if (tokenData) {
                 window.localStorage.setItem("token-data", JSON.stringify(tokenData))

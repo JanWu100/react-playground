@@ -30,7 +30,7 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  -webkit-box-shadow: 0 0 0px 1000px #d9d7cf9f inset;
+  -webkit-box-shadow: 0 0 0px 1000px #d9d7cfbb inset;
 }
 
 .spinnerContainer {

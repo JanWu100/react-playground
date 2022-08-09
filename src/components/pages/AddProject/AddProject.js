@@ -2,8 +2,7 @@ import React from "react";
 import classes from "./AddProject.module.css";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
-import { useState, useContext, useEffect } from "react";
-import AuthContext from "../../context/authContext";
+import { useState, useContext, useEffect} from "react";
 import { storage } from "../../../firebase";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import { v4 } from "uuid";
@@ -12,12 +11,15 @@ import Input from "../../input/Input";
 import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 import Button from "../../Button/Button";
 import DataContext from "../../context/dataContext";
+import useAuth from "../../hooks/useAuth";
+import AuthContext from "../../context/authContext";
 
 const AddProject = () => {
   const navigate = useNavigate();
-  const auth = useContext(AuthContext);
   const dataContext = useContext(DataContext)
+  const authContext = useContext(AuthContext)
 
+  const [auth] = useAuth()
   const [loading, setLoading] = useState(false)
   const [project, setProject] = useState({
     type: "Project",
@@ -26,7 +28,8 @@ const AddProject = () => {
       "Sed senectus quam tempor pharetra tincidunt. Urna, venenatis netus lacus, odio. Turpis lorem quis ut in. Tincidunt aliquam vitae, fermentum quis nibh dignissim. Commodo amet phasellus urna cursus fermentum. Id purus quam viverra tempus nec bibendum amet. Natoque neque eget platea in tempus. Nunc rhoncus aliquet pellentesque quis vitae ornare justo hac. Gravida integer eget purus risus eget. Quisque pellentesque proin vestibulum commodo.",
     big: [],
     thumbnail: null,
-    link: ""
+    link: "",
+    createdBy: authContext.user.userId
   });
 
   const options = [
@@ -65,17 +68,20 @@ const AddProject = () => {
       console.log("Project needs some pictures");
     } else {
       setLoading(true)
-      await axios.post(`${DB_PATH}/projects.json`, {type: project.type, title: project.title, link: project.link, thumbnail: project.thumbnail});
+      await axios.post(`${DB_PATH}/projects/${authContext.user.userId}.json?auth=${authContext.user.token}`,
+                         {type: project.type, 
+                          title: project.title, 
+                          link: project.link, 
+                          thumbnail: project.thumbnail});
       dataContext.fetchProjects() 
       navigate("/");
 
     }
+    
   }
 
   const addProjectToDatabase = async () => {
     
-    
-
       if (project.title.length + project.description.length === 0) {
         setValid({...valid, title: [false, "Testowy msg"], description: [false, "Testowy msg"]})
       } else if (project.title.length === 0) {
@@ -89,13 +95,16 @@ const AddProject = () => {
         
         const res = await axios.get(`${DB_PATH}/projects.json`);
         const currentTitles =[]
-  
+        
+ 
         if(res.data) {
           Object.entries(res.data).forEach(([key, value]) => {
-            currentTitles.push(stringToUrlFriendly(value.title))
+            Object.entries(value).forEach(([key, value]) => {
+              currentTitles.push(stringToUrlFriendly(value.title))
+            })
           });     
         }
-     
+
   
         if(currentTitles.includes(stringToUrlFriendly(project.title))) {
           setValid({...valid, title: [false, "Title used"]})
@@ -103,19 +112,13 @@ const AddProject = () => {
           return;
         } 
   
-        await axios.post(`${DB_PATH}/projects.json`, project);
+        await axios.post(`${DB_PATH}/projects/${authContext.user.userId}.json?auth=${authContext.user.token}`, project);
         dataContext.fetchProjects()
         navigate("/");
         
       }
   
   }
-
-  useEffect(() => {
-    if (auth.isAuthenticated === false) {
-      navigate("/");
-    }
-  }, [auth.isAuthenticated, navigate]);
 
   const [imageUpload, setImageUpload] = useState(null);
   const [imageList, setImageList] = useState([]);
@@ -165,6 +168,10 @@ const AddProject = () => {
     const newImageList = imageList.filter((x)=>{ return x[1] !== fileNameInStorage} )
     setImageList(newImageList)
 
+  }
+
+  if (!auth) {
+    navigate("/")
   }
 
   return (

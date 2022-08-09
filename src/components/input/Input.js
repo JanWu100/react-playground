@@ -3,7 +3,7 @@ import classes from "./Input.module.css";
 const ErrorMessage = (props) => {
   return (
     <>
-      {!props.valid[0] ? <h4 className={`${classes.invalid} ${classes.errorMessage} ${props.type ? classes.invalidPicLabel : null}`}>{props.children}</h4> : null}
+      {!props.valid[0] ? <h4 className={`${classes.invalid} ${classes.errorMessage} ${props.type === "file" ? classes.invalidPicLabel : null}`}>{props.children}</h4> : null}
     </>
   )
 }
