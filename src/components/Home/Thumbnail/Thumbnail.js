@@ -5,7 +5,7 @@ import { stringToUrlFriendly } from "../../../helpers/formatUrl";
 const Thumbnail = ({ type, id, thumbnail, title, link }) => {
   if (type === "Project") {
     return (
-      <Link to={`${stringToUrlFriendly(title)}`} className={classes.link}>
+      <Link to={`project/${stringToUrlFriendly(title)}`} className={classes.link}>
         <div className={classes.card}>
           <img className={classes.photo} src={thumbnail} alt=""></img>
           <div className={classes.cardBody}>

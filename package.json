@@ -1,5 +1,6 @@
 {
   "name": "react-playground",
+  "homepage": "https://www.veryfirstwebsite.com/reactplayground/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

@@ -26,7 +26,7 @@ const Photos = () => {
       >
         <div className={classes.navbar}>
           <Link
-            to={`/${params.title}`}
+            to={`/project/${params.title}`}
             state={{ from: "photos" }}
             className={classes.arrowLink}
           >

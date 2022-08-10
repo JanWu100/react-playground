@@ -26,7 +26,7 @@ const Navbar = (props) => {
 
   return (
     <nav className={classes.navbar}>
-      {window.location.pathname !== "/" ? (
+      {window.location.pathname !== "/reactplayground/" ? (
           <Link to="/" state={{ from: "navbar" }}>
           <img
             className={classes.arrow}
@@ -49,7 +49,8 @@ const Navbar = (props) => {
              : null}
         </li>
         <li className={classes.listItem}>
-        {window.location.pathname === "/about" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/about" className={classes.link}>About</Link>}
+        {window.location.pathname === "/reactplayground/about" || 
+          window.location.pathname === "/about" ? <Link to="/" state={{ from: "navbar" }} className={classes.link}>Works</Link> : <Link to="/about" className={classes.link}>About</Link>}
         </li>
         <li className={classes.listItem}>
           {width >= 768 ?  

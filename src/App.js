@@ -86,11 +86,11 @@ function App() {
                   </>
       )} />
 
-      <Route path=":title/photos" element={
+      <Route path="/project/:title/photos" element={
                   <Photos />
       } />
 
-      <Route path=":title" element={(<>
+      <Route path="/project/:title" element={(<>
                   {navbar}
                   <Project />
                   </>
@@ -132,7 +132,7 @@ function App() {
   const footer = <Footer />;
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="reactplayground">
       <AuthContext.Provider
         value={{
           isAuthenticated: userLogged,

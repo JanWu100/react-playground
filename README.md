@@ -2,6 +2,36 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Short Description
+
+This is my first real React Project. The focus was to learn how to create fully functional website: with users, data/picture uploads and basic authentication. For that I have used firebase and as app got bigger I already see some things that should be done differently (maybe in v2 :)).
+
+User can create an account, then add or delete projects to a homepage. User can see admin's and his own projects and not projects uploaded by others.
+
+### Screenshot
+
+![](./screenshot.png)
+
+### Links
+
+- Live Site URL: [https://veryfirstwebsite/reactplayground/](https://veryfirstwebsite/reactplayground/)
+
+### Tools used
+
+- React
+- React router
+- Framer motion
+- Firebase storage/authentication/realtime database
+- uuid
+- axios
+- dotenv
+
+### Still left to do:
+
+Editing already existing projects.
+
+Changing order of projects displayed on homepage.
+
 ## Available Scripts
 
 In the project directory, you can run:
