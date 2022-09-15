@@ -14,7 +14,7 @@ User can create an account, then add or delete projects to a homepage. User can 
 
 ### Links
 
-- Live Site URL: [https://veryfirstwebsite/reactplayground/](https://veryfirstwebsite/reactplayground/)
+- Live Site URL: [https://veryfirstwebsite.com/reactplayground/](https://veryfirstwebsite.com/reactplayground/)
 
 ### Tools used
 
