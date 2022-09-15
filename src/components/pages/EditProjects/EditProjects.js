@@ -1,7 +1,7 @@
 import classes from "./EditProjects.module.css"
 import { motion, AnimatePresence } from "framer-motion";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import AuthContext from "../../context/authContext";
 import ProjectBar from "./ProjectBar/ProjectBar";
 import DataContext from "../../context/dataContext";
@@ -65,6 +65,9 @@ const EditProjects = () => {
                 <ProjectBar key={project.id} {...project} onDelete={onDeleteHandler} loading={loading}/>
                 ))}
             </div>
+            {userData.length === 0 ? 
+              <h2>You dont have any projects yet. <Link to="/addproject" className={classes.contactButton}>Add your first project.</Link> </h2> 
+              : null}
           </motion.section>
         </AnimatePresence>
       );  
